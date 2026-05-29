@@ -2,3 +2,103 @@
 body{
     background-color: #ecffea;
 }
+#Background{
+    position: absolute;
+    top: -1%;
+    left: -1%;
+    width: 101%;
+    height: 101%;
+    z-index: -1;
+}
+
+/*Customers for your Pawn Shop and your Bank. Come in audience right, come up to talk, then leave out the left.*/
+.Customer{
+    position: absolute;
+    width: 20%;
+    display: block;
+}
+#Clown{
+    left: 60%;
+    top: 8%;
+    width: 15%;
+}
+#Cloud{
+    left: 30%;
+    top: 2%;
+}
+#Goose{
+    left: 50%;
+    top: 18%;
+}
+#Smelly{
+    left: 60%;
+    top: 10%;
+}
+#Grass{
+    left: 10%;
+    top: 15%;
+}
+
+#Barrier{
+    position: absolute;
+    width: 68.5%;
+    height: 57%;
+    left: 11%;
+    z-index: 2;
+}
+
+.Curio{
+    position: absolute;
+    width: 8%;
+    z-index: 3;
+}
+#Slot1{
+    left: 18%;
+    top: 7%;
+}
+#Slot2{
+    left: 33%;
+    top: 7%;
+}
+#Slot3{
+    left: 48%;
+    top: 7%;
+}
+#Slot4{
+    left: 63%;
+    top: 7%;
+}
+#Slot5{
+    left: 18%;
+    top: 30%;
+}
+#Slot6{
+    left: 63%;
+    top: 30%;
+}
+
+#Sack{
+    position: absolute;
+    left: 11%;
+    bottom:11%;
+    width: 18%;
+}
+#Basket{
+    position: absolute;
+    right: 18%;
+    bottom: 5%;
+    width: 15%;
+}
+#Shift{
+    position: absolute;
+    right: 7%;
+    bottom: 28%;
+    width: 15%;
+}
+#FlatBat{
+    position: absolute;
+    right: 6%;
+    bottom: 35%;
+    width: 9%;
+    display: block;
+}
