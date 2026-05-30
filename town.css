@@ -5,100 +5,116 @@ body{
 #Background{
     position: absolute;
     top: -1%;
+    left: 10%;
+    width: 69%;
+    height: 60%;
+    z-index: -1;
+}
+#Foreground{
+    position: absolute;
+    top: -1%;
     left: -1%;
     width: 101%;
     height: 101%;
-    z-index: -1;
+    z-index: 3;
 }
-
-/*Customers for your Pawn Shop and your Bank. Come in audience right, come up to talk, then leave out the left.*/
-.Customer{
-    position: absolute;
-    width: 20%;
-    display: block;
-}
-#Clown{
-    left: 60%;
-    top: 8%;
-    width: 15%;
-}
-#Cloud{
-    left: 30%;
-    top: 2%;
-}
-#Goose{
-    left: 50%;
-    top: 18%;
-}
-#Smelly{
-    left: 60%;
-    top: 10%;
-}
-#Grass{
-    left: 10%;
-    top: 15%;
-}
-
 #Barrier{
     position: absolute;
     width: 68.5%;
     height: 57%;
     left: 11%;
-    z-index: 2;
+    z-index: 3;
+    cursor: pointer;
+}
+
+/*Customers for your Pawn Shop and your Bank. Come in audience right, come up to talk, then leave out the left.*/
+#Customer1{
+    position: absolute;
+    width: 20%;
+    left: 70%;
+    top: 8%;
+    width: 15%;
+    display: none;
+}
+#Customer2{
+    position: absolute;
+    width: 20%;
+    left: 70%;
+    top: 8%;
+    width: 15%;
+    display: none;
 }
 
 .Curio{
     position: absolute;
-    width: 8%;
+    width: 6%;
     z-index: 3;
+    cursor: pointer;
 }
 #Slot1{
-    left: 18%;
-    top: 7%;
+    left: 16%;
+    top: 5%;
 }
 #Slot2{
     left: 33%;
-    top: 7%;
+    top: 5%;
 }
 #Slot3{
     left: 48%;
-    top: 7%;
+    top: 5%;
 }
 #Slot4{
     left: 63%;
-    top: 7%;
+    top: 5%;
 }
 #Slot5{
-    left: 18%;
-    top: 30%;
+    left: 16%;
+    top: 32%;
 }
 #Slot6{
     left: 63%;
-    top: 30%;
+    top: 32%;
 }
 
+#Bell{
+    position: absolute;
+    bottom: 37%;
+    right: 33%;
+    width: 5%;
+    z-index: 5;
+    cursor: pointer;
+}
 #Sack{
     position: absolute;
     left: 11%;
-    bottom:11%;
-    width: 18%;
+    bottom: 7%;
+    width: 14%;
+    z-index: 5;
+    cursor: pointer;
 }
 #Basket{
     position: absolute;
     right: 18%;
     bottom: 5%;
     width: 15%;
+    z-index: 5;
+    cursor: pointer;
 }
 #Shift{
     position: absolute;
     right: 7%;
-    bottom: 28%;
-    width: 15%;
+    bottom: 19%;
+    width: 13%;
+    z-index: 6;
+    cursor: pointer;
 }
 #FlatBat{
     position: absolute;
-    right: 6%;
-    bottom: 35%;
+    right: 5%;
+    bottom: 32%;
     width: 9%;
-    display: block;
+    rotate: 15deg;
+    display: none;
+    z-index: 5;
+    cursor: pointer;
 }
