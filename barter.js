@@ -189,3 +189,27 @@ const comeIn2 = new KeyframeEffect(
 );
 let myTurn2 = new Animation(comeIn2, document.timeline);
 
+let noMap = document.getElementById("CancelMap");
+let wallMap = document.getElementById("Map");
+wallMap.addEventListener("click", () =>{
+    document.getElementById("WhereGo").style.display = "block";
+    noMap.style.display = "block";
+    document.getElementById("HomeMap").style.display = "block";
+    document.getElementById("LocustMap").style.display = "block";
+    document.getElementById("TigerMap").style.display = "block";
+    document.getElementById("MushroomMap").style.display = "block";
+    document.getElementById("AppraisalMap").style.display = "block";
+    document.getElementById("MinesMap").style.display = "block";
+    document.getElementById("BikeMap").style.display = "block";
+});
+noMap.addEventListener("click", () =>{
+    document.getElementById("WhereGo").style.display = "none";
+    noMap.style.display = "none";
+    document.getElementById("HomeMap").style.display = "none";
+    document.getElementById("LocustMap").style.display = "none";
+    document.getElementById("TigerMap").style.display = "none";
+    document.getElementById("MushroomMap").style.display = "none";
+    document.getElementById("AppraisalMap").style.display = "none";
+    document.getElementById("MinesMap").style.display = "none";
+    document.getElementById("BikeMap").style.display = "none";
+});
