@@ -1,3 +1,14 @@
+const loans = {
+    1: {name: "", interest: 0, elapsed: 0, principle: 0},
+    2: {name: "", interest: 0, elapsed: 0, principle: 0},
+    3: {name: "", interest: 0, elapsed: 0, principle: 0},
+}
+const eggs = {
+    1: {name: "", interest: 0, elapsed: 0, principle: 0},
+    2: {name: "", interest: 0, elapsed: 0, principle: 0},
+    3: {name: "", interest: 0, elapsed: 0, principle: 0},
+}
+
 let ding = new Audio("audio/ding.mp3");
 let doorOpen = new Audio("audio/doorOpen.mp3");
 let doorSlam = new Audio("audio/doorSlam.mp3");
@@ -213,3 +224,58 @@ noMap.addEventListener("click", () =>{
     document.getElementById("MinesMap").style.display = "none";
     document.getElementById("BikeMap").style.display = "none";
 });
+
+let office = 0;
+/*  0: Tiger
+    1: Locust
+    2: Mushroom
+    3: Appraisal    */
+document.getElementById("TigerMap").addEventListener("click", ()=>{
+    office = 0;
+    location.href="./Service.html";
+});
+document.getElementById("LocustMap").addEventListener("click", ()=>{
+    office = 1;
+    location.href="./Service.html";
+});
+document.getElementById("MushroomMap").addEventListener("click", ()=>{
+    office = 2;
+    location.href="./Service.html";
+});
+document.getElementById("AppraisalMap").addEventListener("click", ()=>{
+    office = 3;
+    location.href="./Service.html";
+});
+
+//fetch the data on what today is: the field weather, the time of day, the number day since beginning, and whether it is a holiday.
+function getLoan(){
+    const loan = localStorage.getItem('loan');
+    return loan ? JSON.parse(loan) : [];            //returns empty by default to catch an exception
+    console.log("got the loan!");
+}
+function emptyLoan(){
+    return{
+        name: '',       //which bank
+        interest: 0,    //interest on the loan per day
+        elapsed: 0,     //how many days interest will have racked up for so far
+        principle: 0    //base amount borrowed
+    };
+}
+function getEgg(){
+    const egg = localStoreage.getItem('egg');
+    return egg ? JSON.parse(egg) : [];
+    console.log("nest egg secured!")
+}
+function emptyEgg(){
+    return{
+        name: '',       //which bank
+        interest: 0,    //interest on the deposit per day
+        elapsed: 0,     //how many days deposit will have racked up for so far
+        principle: 0    //base amount deposited
+    };
+}
+document.addEventListener('DOMContentLoaded', () => {
+    //initialize variables to be used by JSON stuff
+    const egg = getEgg();
+    const loan = getLoan();
+})
