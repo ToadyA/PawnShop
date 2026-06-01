@@ -1,12 +1,17 @@
 const loans = {
-    1: {name: "", interest: 0, elapsed: 0, principle: 0},
-    2: {name: "", interest: 0, elapsed: 0, principle: 0},
-    3: {name: "", interest: 0, elapsed: 0, principle: 0},
+    1: {name: "Loan 1", interest: 0, elapsed: 0, principle: 0},
+    2: {name: "Loan 2", interest: 0, elapsed: 0, principle: 0},
+    3: {name: "Loan 3", interest: 0, elapsed: 0, principle: 0},
 }
 const eggs = {
-    1: {name: "", interest: 0, elapsed: 0, principle: 0},
-    2: {name: "", interest: 0, elapsed: 0, principle: 0},
-    3: {name: "", interest: 0, elapsed: 0, principle: 0},
+    1: {name: "Deposit 1", interest: 0, elapsed: 0, principle: 0},
+    2: {name: "Deposit 2", interest: 0, elapsed: 0, principle: 0},
+    3: {name: "Deposit 3", interest: 0, elapsed: 0, principle: 0},
+}
+const curio = {     //expand this to have more items
+    1: {name: "Buoy", age: 0, condition: 0, unique: false, value: 0},
+    2: {name: "Bark Shard", age: 0, condition: 0, unique: false, value: 0},
+    3: {name: "Glask", age: 0, condition: 0, unique: false, value: 0},
 }
 
 let ding = new Audio("audio/ding.mp3");
@@ -65,8 +70,14 @@ bell.addEventListener("click", () =>{
         if(customers == 0 || customers % 2 == 0){
             sizeWarp = 300;
             growver = false;
-            leave2.play();
+            //leave2.play();
             outtaHere(customer2);
+            customer2.animate([
+                    {transform: 'translateX(0%)', transform: 'translateY(0%)'},
+                    {transform: 'translateX(-200%)', transform: 'translateY(-20%)'},
+                ], {
+                    duration: 1000,
+                });
             console.log("customer2 is departing.");
             customer2.style.left = "70%";
             customer2.style.left = "30%";
@@ -78,8 +89,14 @@ bell.addEventListener("click", () =>{
                 customer1.style.display = "block";
                 doorOpen.currentTime = 0;
                 doorOpen.play();
-                myTurn1.play();
+                //myTurn1.play();
                 comeOnIn(customer1);
+                customer1.animate([
+                    {transform: 'translateX(0%)', transform: 'translateY(0%)'},
+                    {transform: 'translateX(-200%)', transform: 'translateY(10%)'},
+                ], {
+                    duration: 1000,
+                });
                 console.log("customer1 is arriving.");
                 setTimeout(() =>{
                     console.log("customer2 has disappeared.");
@@ -93,8 +110,14 @@ bell.addEventListener("click", () =>{
             if(customers != 7){      //first customer means nobody is walking out, but I could add a bogey invisible customer -1
                 sizeWarp = 300;
                 growver = false;
-                leave1.play();
+                //leave1.play();
                 outtaHere(customer1);
+                customer2.animate([
+                    {transform: 'translateX(0%)', transform: 'translateY(0%)'},
+                    {transform: 'translateX(-200%)', transform: 'translateY(-20%)'},
+                ], {
+                    duration: 1000,
+                });
                 console.log("customer1 is departing.");
                 customer1.style.left = "70%";
                 customer1.style.left = "30%";
@@ -106,11 +129,17 @@ bell.addEventListener("click", () =>{
                 growver = false;
                 console.log("customer2 has appeared.");
                 customer2.style.display = "block";
-                myTurn2.play();
+                //myTurn2.play();
+                comeOnIn(customer2);
+                customer2.animate([
+                    {transform: 'translateX(0%)', transform: 'translateY(0%)'},
+                    {transform: 'translateX(-200%)', transform: 'translateY(10%)'},
+                ], {
+                    duration: 1000,
+                });
                 console.log("customer2 is arriving.");
                 doorSlam.currentTime = 0;
                 doorSlam.play();
-                comeOnIn(customer2);
                 setTimeout(() =>{
                     console.log("customer1 has disappeared.");
                     customer1.style.display = "none";
@@ -159,46 +188,6 @@ function comeOnIn(c){
         sizeWarp = 300;
     }
 }
-
-//movement animations and mask swapping for customer1 & 2
-const goHome1 = new KeyframeEffect(
-    customer1, [
-        {transform: "translateX(50%) translateY(40%)"},
-        {transform: "translateX(15%) translateY(12%)"},
-    ], {
-        durations: 1000,
-    },
-);
-let leave1 = new Animation(goHome1, document.timeline);
-const goHome2 = new KeyframeEffect(
-    customer2, [
-        {transform: "translateX(50%) translateY(40%)"},
-        {transform: "translateX(15%) translateY(12%)"},
-    ], {
-        durations: 1000,
-    },
-);
-let leave2 = new Animation(goHome2, document.timeline);
-
-const comeIn1 = new KeyframeEffect(
-    customer1, [
-        {transform: "translateX(70%) translateY(8%)"},
-        {transform: "translateX(50%) translateY(40%)"},
-    ], {
-        durations: 1000,
-    },
-);
-let myTurn1 = new Animation(comeIn1, document.timeline);
-
-const comeIn2 = new KeyframeEffect(
-    customer2, [
-        {transform: "translateX(70%) translateY(8%)"},
-        {transform: "translateX(50%) translateY(40%)"},
-    ], {
-        durations: 1000,
-    },
-);
-let myTurn2 = new Animation(comeIn2, document.timeline);
 
 let noMap = document.getElementById("CancelMap");
 let wallMap = document.getElementById("Map");
@@ -262,7 +251,7 @@ function emptyLoan(){
     };
 }
 function getEgg(){
-    const egg = localStoreage.getItem('egg');
+    const egg = localStorage.getItem('egg');
     return egg ? JSON.parse(egg) : [];
     console.log("nest egg secured!")
 }
@@ -274,8 +263,13 @@ function emptyEgg(){
         principle: 0    //base amount deposited
     };
 }
-document.addEventListener('DOMContentLoaded', () => {
-    //initialize variables to be used by JSON stuff
-    const egg = getEgg();
-    const loan = getLoan();
-})
+
+function emptyCurio(){
+    return{
+        name: '',       //the curio. 
+        age: 0,         //higher age yields exponential returns
+        condition: 0,   //higher condition yields linear returns
+        unique: false,  //unique is a static multiplied amount, but it scales higher for age than for condition
+        value: 0        //defaults to a low number (what your inexperienced self ascertains), but appraising it will apply the age and condition and unique modifiers
+    };
+}
