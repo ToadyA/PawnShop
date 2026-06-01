@@ -136,75 +136,80 @@ bell.addEventListener("click", () =>{
         
     }
 });
-let custx = 700;        //70 to 50 to 30; 700 represents 70.0%
-let custy = 80;         //8 to 28 to 8; 80 represents 8.0%
-let sizeWarp = 200;     //faraway customers are at 20% width by default. 200 here reads as 20.0%
-let swPoint = 0;        //decimal holder to bypass float shenanigans
-let yPoint = 0;         //SAB but I need two at a time
+let custxOut = 700;        //70 to 50 to 30; 700 represents 70.0%
+let custyOut = 80;         //8 to 28 to 8; 80 represents 8.0%
+let sizeWarpOut = 200;     //faraway customers are at 20% width by default. 200 here reads as 20.0%
+let swPointOut = 0;        //decimal holder to bypass float shenanigans
+let yPointOut = 0;         //SAB but I need two at a time
 let growver = false;
 function outtaHere(c){
     showMe = custx.toString() + " y: " + custy.toString();
     console.log("function call out - x: " + showMe);
     if(!growver){
         setTimeout(() =>{
-            swPoint = custx % 10;
-            custx = Math.trunc(custx / 10);
-            //c.style.left = custx + "." + swPoint + "%";
-            c.innerHTML = "<style=\"left: " + custx + "." + swPoint + "%; top: " + custy + "." + yPoint + "%;\">";
-            custx = (custx * 10) + swPoint;
-            custx -= 10; 
+            swPointOut = custxOut % 10;
+            custxOut = Math.trunc(custxOut / 10);
+            //c.style.left = custxOut + "." + swPointOut + "%";
+            c.innerHTML = "<style=\"left: " + custxOut + "." + swPointOut + "%; top: " + custyOut + "." + yPointOut + "%;\">";
+            custxOut = (custxOut * 10) + swPointOut;
+            custxOut -= 10; 
 
-            yPoint = custy % 10;
-            custy = Math.trunc(custy / 10);
-            //c.style.top = custy + "." + yPoint + "%";
-            c.innerHTML = "<style=\"left: " + custx + "." + swPoint + "%; top: " + custy + "." + yPoint + "%;\">";
-            custy = (custy * 10) + yPoint;
+            yPointOut = custyOut % 10;
+            custyOut = Math.trunc(custyOut / 10);
+            //c.style.top = custyOut + "." + yPointOut + "%";
+            c.innerHTML = "<style=\"left: " + custxOut + "." + swPointOut + "%; top: " + custyOut + "." + yPointOut + "%;\">";
+            custyOut = (custyOut * 10) + yPointOut;
             custy -= 10;
 
-            swPoint = sizeWarp % 10;
-            sizeWarp = Math.trunc(sizeWarp / 10);
-            c.style.width = sizeWarp + "." + swPoint + "%";
-            sizeWarp = (sizeWarp * 10) + swPoint;
-            sizeWarp -= 5;
+            swPointOut = sizeWarpOut % 10;
+            sizeWarpOut = Math.trunc(sizeWarpOut / 10);
+            c.style.width = sizeWarpOut + "." + swPointOut + "%";
+            sizeWarpOut = (sizeWarpOut * 10) + swPointOut;
+            sizeWarpOut -= 5;
             console.log("pre-reset - x: " + custx + " y: " + custy);
             outtaHere(c);
         }), 50;
     }
-    if(sizeWarp <= 200){
+    if(sizeWarpOut <= 200){
         growver = true;
-        sizeWarp = 200;
+        sizeWarpOut = 200;
     }
 }
+let custxIn = 700;        //don't clash
+let custyIn = 80;         
+let sizeWarpIn = 200;     
+let swPointIn = 0;        
+let yPointIn = 0;         
 function comeOnIn(c){
     showMe = custx.toString() + " y: " + custy.toString();
     console.log("function call in - x: " + showMe);
     if(!growver){
         setTimeout(() =>{
-            swPoint = custx % 10;
-            custx = Math.trunc(custx / 10);
-            //c.style.left = custx + "." + swPoint + "%";
-            c.innerHTML = "<style=\"left: " + custx + "." + swPoint + "%; top: " + custy + "." + yPoint + "%;\">";
-            custx = (custx * 10) + swPoint;
-            custx -= 15;
+            swPointIn = custxIn % 10;
+            custxIn = Math.trunc(custxIn / 10);
+            //c.style.left = custxIn + "." + swPointIn + "%";
+            c.innerHTML = "<style=\"left: " + custxIn + "." + swPointIn + "%; top: " + custyIn + "." + yPointIn + "%;\">";
+            custxIn = (custxIn * 10) + swPointIn;
+            custxIn -= 15;
 
-            yPoint = custy % 10;
-            custy = Math.trunc(custy / 10);
-            //c.style.top = custy + "." + yPoint + "%";
-            c.innerHTML = "<style=\"left: " + custx + "." + swPoint + "%; top: " + custy + "." + yPoint + "%;\">";
-            custy = (custy * 10) + yPoint;
-            custy += 10;
+            yPointIn = custyIn % 10;
+            custyIn = Math.trunc(custyIn / 10);
+            //c.style.top = custyIn + "." + yPointIn + "%";
+            c.innerHTML = "<style=\"left: " + custxIn + "." + swPointIn + "%; top: " + custyIn + "." + yPointIn + "%;\">";
+            custyIn = (custyIn * 10) + yPointIn;
+            custyIn += 10;
 
-            swPoint = sizeWarp % 10;
-            sizeWarp = Math.trunc(sizeWarp / 10);
-            c.style.width = sizeWarp + "." + swPoint + "%";
-            sizeWarp = (sizeWarp * 10) + swPoint;
-            sizeWarp += 5;
+            swPointIn = sizeWarpIn % 10;
+            sizeWarpIn = Math.trunc(sizeWarpIn / 10);
+            c.style.width = sizeWarpIn + "." + swPointIn + "%";
+            sizeWarpIn = (sizeWarpIn * 10) + swPointIn;
+            sizeWarpIn += 5;
             comeOnIn(c);
         }), 50;
     }
-    if(sizeWarp >= 300){
+    if(sizeWarpIn >= 300){
         growver = true;
-        sizeWarp = 300;
+        sizeWarpIn = 300;
     }
 }
 
