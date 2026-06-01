@@ -59,6 +59,7 @@ let customers = 8;  //number of customers remaining today
 let clientImg = ["images/clients/Grass.png", "images/clients/Exclaim.png", "images/clients/ScabbardClown.png", "images/clients/Cloud.png", "images/clients/Smelly.png", "images/clients/Goose.png", "images/clients/Shotgun.png", "images/clients/BallKid.png"];
 let customer1 = document.getElementById("Customer1");       //odds
 let customer2 = document.getElementById("Customer2");       //evens
+let showMe = "";
 //one walks out, another walks in. The two queues alternate.
 const bell = document.getElementById("Bell");
 bell.addEventListener("click", () =>{
@@ -142,7 +143,8 @@ let swPoint = 0;        //decimal holder to bypass float shenanigans
 let yPoint = 0;         //SAB but I need two at a time
 let growver = false;
 function outtaHere(c){
-    console.log("function call out - x: " + custx + " y: " + custy);
+    showMe = custx.toString() + " y: " + custy.toString();
+    console.log("function call out - x: " + showMe);
     if(!growver){
         setTimeout(() =>{
             swPoint = custx % 10;
@@ -174,7 +176,8 @@ function outtaHere(c){
     }
 }
 function comeOnIn(c){
-    console.log("function call in - x: " + custx + " y: " + custy);
+    showMe = custx.toString() + " y: " + custy.toString();
+    console.log("function call in - x: " + showMe);
     if(!growver){
         setTimeout(() =>{
             swPoint = custx % 10;
