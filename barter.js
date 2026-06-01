@@ -56,25 +56,26 @@ glass.addEventListener("click", () =>{
 
 let toFro = false;  //customers are moving in/out, you must wait a little.
 let customers = 8;  //number of customers remaining today
-let clientImg = ["images/clients/Grass.png", "images/clients/Exclaim.png", "images/clients/ScabbardClown.png", "images/clients/Cloud.png", "images/clients/Smelly.png", "images/clients/Goose.png", "images/clients/Shotgun.png", "images/clients/BallKid.png"];
+let clientImg = ["images/clients/BallKid.png", "images/clients/Exclaim.png", "images/clients/ScabbardClown.png", "images/clients/Cloud.png", "images/clients/Smelly.png", "images/clients/Goose.png", "images/clients/Shotgun.png", "images/clients/Grass.png"];
 let customer1 = document.getElementById("Customer1");       //odds
 let customer2 = document.getElementById("Customer2");       //evens
 let showMe = "";
 //one walks out, another walks in. The two queues alternate.
 const bell = document.getElementById("Bell");
 bell.addEventListener("click", () =>{
+    console.log("queue placement on click: " + customers);
     ding.currentTime = 0.1;
     ding.play();
-    if(!toFro && customers >= 0){
+    if(!toFro){
         toFro = true;
         customers --;
-        if(customers == 0 || customers % 2 == 0){
+        if(customers % 2 == 0){
             sizeWarp = 300;
             growver = false;
             custx = 300;
             custy = 300;
             outtaHere(customer2);
-            customer2.src = clientImg[customers];
+            console.log("queue placement: " + customers);
             setTimeout(() =>{
                 sizeWarp = 200;
                 growver = false;
@@ -84,6 +85,10 @@ bell.addEventListener("click", () =>{
                 custx = 700;
                 custy = 80;
                 comeOnIn(customer1);
+                if(customers <= 0)
+                    customer1.src = clientImg[0];
+                else
+                    customer1.src = clientImg[customers];
                 setTimeout(() =>{
                     customer2.style.display = "none";
                     toFro = false;
@@ -97,7 +102,7 @@ bell.addEventListener("click", () =>{
                 custx = 300;
                 custy = 300;
                 outtaHere(customer1);
-                customer1.src = clientImg[customers];
+                console.log("queue placement: " + customers);
                 doorOpen.play();
             }
             setTimeout(() =>{
@@ -107,6 +112,10 @@ bell.addEventListener("click", () =>{
                 custx = 700;
                 custy = 80;
                 comeOnIn(customer2);
+                if(customers <= 0)
+                    customer2.src = clientImg[0];
+                else
+                customer2.src = clientImg[customers];
                 doorSlam.currentTime = 0;
                 doorSlam.play();
                 setTimeout(() =>{
@@ -125,15 +134,13 @@ let swPoint = 0;        //decimal holder to bypass float shenanigans
 let yPoint = 0;         //SAB but I need two at a time
 let growver = false;
 function outtaHere(c){
-    showMe = custx.toString() + " y: " + custy.toString();
-    console.log("function call out - x: " + showMe);
     if(!growver){
         setTimeout(() =>{
             swPoint = custx % 10;
             custx = Math.trunc(custx / 10);
             c.style.left = custx + "." + swPoint + "%";
             custx = (custx * 10) + swPoint;
-            custx -= 15; 
+            custx -= 20; 
 
             yPoint = custy % 10;
             custy = Math.trunc(custy / 10);
@@ -146,7 +153,6 @@ function outtaHere(c){
             c.style.width = sizeWarp + "." + swPoint + "%";
             sizeWarp = (sizeWarp * 10) + swPoint;
             sizeWarp -= 5;
-            console.log("pre-reset - x: " + custx + " y: " + custy);
             outtaHere(c);
         }), 50;
     }
@@ -156,21 +162,19 @@ function outtaHere(c){
     }
 }
 function comeOnIn(c){
-    showMe = custx.toString() + " y: " + custy.toString();
-    console.log("function call in - x: " + showMe);
     if(!growver){
         setTimeout(() =>{
             swPoint = custx % 10;
             custx = Math.trunc(custx / 10);
             c.style.left = custx + "." + swPoint + "%";
             custx = (custx * 10) + swPoint;
-            custx -= 15;
+            custx -= 12;
 
             yPoint = custy % 10;
             custy = Math.trunc(custy / 10);
             c.style.top = custy + "." + yPoint + "%";
             custy = (custy * 10) + yPoint;
-            custy += 12;
+            custy += 8;
 
             swPoint = sizeWarp % 10;
             sizeWarp = Math.trunc(sizeWarp / 10);
@@ -180,9 +184,9 @@ function comeOnIn(c){
             comeOnIn(c);
         }), 50;
     }
-    if(sizeWarp >= 300){
+    if(sizeWarp >= 350){
         growver = true;
-        sizeWarp = 300;
+        sizeWarp = 350;
     }
 }
 
