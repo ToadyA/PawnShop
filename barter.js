@@ -71,16 +71,12 @@ bell.addEventListener("click", () =>{
             sizeWarp = 300;
             growver = false;
             //leave2.play();
+            custx = customer2.style.left * 10;
+            custy = customer2.style.top * 10;
             outtaHere(customer2);
-            customer2.animate([
-                    {transform: 'translateX(0%)', transform: 'translateY(0%)'},
-                    {transform: 'translateX(-200%)', transform: 'translateY(-20%)'},
-                ], {
-                    duration: 1000,
-                });
             console.log("customer2 is departing.");
             customer2.style.left = "70%";
-            customer2.style.left = "30%";
+            customer2.style.top = "30%";
             customer2.src = clientImg[customers];
             setTimeout(() =>{
                 sizeWarp = 200;
@@ -90,13 +86,9 @@ bell.addEventListener("click", () =>{
                 doorOpen.currentTime = 0;
                 doorOpen.play();
                 //myTurn1.play();
+                custx = customer1.style.left * 10;
+                custy = customer1.style.top * 10;
                 comeOnIn(customer1);
-                customer1.animate([
-                    {transform: 'translateX(0%)', transform: 'translateY(0%)'},
-                    {transform: 'translateX(-200%)', transform: 'translateY(10%)'},
-                ], {
-                    duration: 1000,
-                });
                 console.log("customer1 is arriving.");
                 setTimeout(() =>{
                     console.log("customer2 has disappeared.");
@@ -111,16 +103,12 @@ bell.addEventListener("click", () =>{
                 sizeWarp = 300;
                 growver = false;
                 //leave1.play();
+                custx = customer1.style.left * 10;
+                custy = customer1.style.top * 10;
                 outtaHere(customer1);
-                customer2.animate([
-                    {transform: 'translateX(0%)', transform: 'translateY(0%)'},
-                    {transform: 'translateX(-200%)', transform: 'translateY(-20%)'},
-                ], {
-                    duration: 1000,
-                });
                 console.log("customer1 is departing.");
                 customer1.style.left = "70%";
-                customer1.style.left = "30%";
+                customer1.style.top = "30%";
                 customer1.src = clientImg[customers];
                 doorOpen.play();
             }
@@ -130,13 +118,9 @@ bell.addEventListener("click", () =>{
                 console.log("customer2 has appeared.");
                 customer2.style.display = "block";
                 //myTurn2.play();
+                custx = customer2.style.left * 10;
+                custy = customer2.style.top * 10;
                 comeOnIn(customer2);
-                customer2.animate([
-                    {transform: 'translateX(0%)', transform: 'translateY(0%)'},
-                    {transform: 'translateX(-200%)', transform: 'translateY(10%)'},
-                ], {
-                    duration: 1000,
-                });
                 console.log("customer2 is arriving.");
                 doorSlam.currentTime = 0;
                 doorSlam.play();
@@ -151,17 +135,36 @@ bell.addEventListener("click", () =>{
         
     }
 });
-let sizeWarp = 200;  //faraway customers are at 20% width by default. 200 here reads as 20.0
-let swPoint = 0;    //decimal holder to bypass float shenanigans
+let custx = 700;        //70 to 50 to 30; 700 represents 70.0%
+let custy = 80;         //8 to 28 to 8; 80 represents 8.0%
+let sizeWarp = 200;     //faraway customers are at 20% width by default. 200 here reads as 20.0%
+let swPoint = 0;        //decimal holder to bypass float shenanigans
+let yPoint = 0;         //SAB but I need two at a time
 let growver = false;
 function outtaHere(c){
+    console.log("function call out - x: " + custx + " y: " + custy);
     if(!growver){
         setTimeout(() =>{
+            swPoint = custx % 10;
+            custx = Math.trunc(custx / 10);
+            //c.style.left = custx + "." + swPoint + "%";
+            c.innerHTML = "<style=\"left: " + custx + "." + swPoint + "%; top: " + custy + "." + yPoint + "%;\">";
+            custx = (custx * 10) + swPoint;
+            custx -= 10; 
+
+            yPoint = custy % 10;
+            custy = Math.trunc(custy / 10);
+            //c.style.top = custy + "." + yPoint + "%";
+            c.innerHTML = "<style=\"left: " + custx + "." + swPoint + "%; top: " + custy + "." + yPoint + "%;\">";
+            custy = (custy * 10) + yPoint;
+            custy -= 10;
+
             swPoint = sizeWarp % 10;
             sizeWarp = Math.trunc(sizeWarp / 10);
             c.style.width = sizeWarp + "." + swPoint + "%";
             sizeWarp = (sizeWarp * 10) + swPoint;
             sizeWarp -= 5;
+            console.log("pre-reset - x: " + custx + " y: " + custy);
             outtaHere(c);
         }), 50;
     }
@@ -169,12 +172,25 @@ function outtaHere(c){
         growver = true;
         sizeWarp = 200;
     }
-        
-    
 }
 function comeOnIn(c){
+    console.log("function call in - x: " + custx + " y: " + custy);
     if(!growver){
         setTimeout(() =>{
+            swPoint = custx % 10;
+            custx = Math.trunc(custx / 10);
+            //c.style.left = custx + "." + swPoint + "%";
+            c.innerHTML = "<style=\"left: " + custx + "." + swPoint + "%; top: " + custy + "." + yPoint + "%;\">";
+            custx = (custx * 10) + swPoint;
+            custx -= 15;
+
+            yPoint = custy % 10;
+            custy = Math.trunc(custy / 10);
+            //c.style.top = custy + "." + yPoint + "%";
+            c.innerHTML = "<style=\"left: " + custx + "." + swPoint + "%; top: " + custy + "." + yPoint + "%;\">";
+            custy = (custy * 10) + yPoint;
+            custy += 10;
+
             swPoint = sizeWarp % 10;
             sizeWarp = Math.trunc(sizeWarp / 10);
             c.style.width = sizeWarp + "." + swPoint + "%";
@@ -188,6 +204,7 @@ function comeOnIn(c){
         sizeWarp = 300;
     }
 }
+
 
 let noMap = document.getElementById("CancelMap");
 let wallMap = document.getElementById("Map");
