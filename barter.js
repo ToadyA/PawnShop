@@ -190,6 +190,7 @@ function comeOnIn(c){
     }
 }
 
+///Map
 
 let noMap = document.getElementById("CancelMap");
 let wallMap = document.getElementById("Map");
@@ -216,25 +217,24 @@ noMap.addEventListener("click", () =>{
     document.getElementById("BikeMap").style.display = "none";
 });
 
-let office = 0;
 /*  0: Tiger
     1: Locust
     2: Mushroom
     3: Appraisal    */
 document.getElementById("TigerMap").addEventListener("click", ()=>{
-    office = 0;
+    localStorage.setItem('office', 0);
     location.href="./Service.html";
 });
 document.getElementById("LocustMap").addEventListener("click", ()=>{
-    office = 1;
+    localStorage.setItem('office', 1);
     location.href="./Service.html";
 });
 document.getElementById("MushroomMap").addEventListener("click", ()=>{
-    office = 2;
+    localStorage.setItem('office', 2);
     location.href="./Service.html";
 });
 document.getElementById("AppraisalMap").addEventListener("click", ()=>{
-    office = 3;
+    localStorage.setItem('office', 3);
     location.href="./Service.html";
 });
 
@@ -275,3 +275,7 @@ function emptyCurio(){
         value: 0        //defaults to a low number (what your inexperienced self ascertains), but appraising it will apply the age and condition and unique modifiers
     };
 }
+
+if(localStorage.getItem('day') == null)
+    localStorage.setItem('day', true);
+console.log("day parity: " + localStorage.getItem('day'));
