@@ -1,0 +1,64 @@
+/*A Map that covers the screen as you pick where to go. The Bike will move to and fro as you decide, ala Pikmin.*/
+#Map{
+    position: absolute;
+    width: 15%;
+    left: -3%;
+    top: 45%;
+    z-index: 5;
+    cursor: pointer;
+}
+#WhereGo{
+    position: absolute;
+    width: 99%;
+    height: 99%;
+    display: none;
+    z-index: 20;
+}
+#CancelMap{
+    position: absolute;
+    width: 5%;
+    right: 2%;
+    top: 2%;
+    display: none;
+    z-index: 23;
+    cursor: pointer;
+}
+#BikeMap{
+    position: absolute;
+    left: 40%;
+    top: 70%;
+    width: 10%;
+    display: none;
+    z-index: 22;
+}
+.Mappy{
+    position: absolute;
+    width: 10%;
+    display: none;
+    z-index: 21;
+    cursor: pointer;
+}
+#HomeMap{
+    left: 40%;
+    top: 80%;
+}
+#LocustMap{
+    left: 10%;
+    top: 8%;
+}
+#TigerMap{
+    left: 80%;
+    top: 15%;
+}
+#MushroomMap{
+    left: 80%;
+    top: 70%;
+}
+#AppraisalMap{
+    left: 45%;
+    top: 45%;
+}
+#MinesMap{
+    left: 5%;
+    top: 75%;
+}

@@ -168,13 +168,13 @@ function comeOnIn(c){
             custx = Math.trunc(custx / 10);
             c.style.left = custx + "." + swPoint + "%";
             custx = (custx * 10) + swPoint;
-            custx -= 12;
+            custx -= 19;
 
             yPoint = custy % 10;
             custy = Math.trunc(custy / 10);
             c.style.top = custy + "." + yPoint + "%";
             custy = (custy * 10) + yPoint;
-            custy += 8;
+            custy += 3;
 
             swPoint = sizeWarp % 10;
             sizeWarp = Math.trunc(sizeWarp / 10);
@@ -184,9 +184,9 @@ function comeOnIn(c){
             comeOnIn(c);
         }), 50;
     }
-    if(sizeWarp >= 350){
+    if(sizeWarp >= 300){
         growver = true;
-        sizeWarp = 350;
+        sizeWarp = 300;
     }
 }
 
