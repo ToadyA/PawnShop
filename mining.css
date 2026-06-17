@@ -13,6 +13,7 @@
     width: 20%;
     height: 40%;
     z-index: 2;
+    cursor: pointer;
 }
 #Boat{
     position: absolute;
@@ -21,6 +22,7 @@
     width: 80%;
     height: 80%;
     z-index: 1;
+    pointer-events: none;
 }
 #Crank{
     position: absolute;
@@ -33,11 +35,12 @@
 }
 #Waves{
     position: absolute;
-    bottom: 0%;
+    bottom: 20%;
     left: -1%;
     width: 101%;
-    height: 60%;
+    height: 28%;
     z-index: 3;
+    pointer-events: none;
 }
 #Pier{
     position: absolute;
@@ -46,6 +49,36 @@
     width: 60%;
     height: 50%;
     z-index: 4;
+    pointer-events: none;
+}
+
+.Water{
+    position: absolute;
+    left: -1%;
+    width: 101%;
+    background-color: #306d58;
+    z-index: 2;
+    pointer-events: none;
+}
+#Water1{
+    height: 20%;
+    display: block;
+    bottom: 0;
+}
+#Water2{
+    height: 20%;
+    display: block;
+    bottom: 0;
+}
+#Water3{
+    height: 35%;
+    display: none;
+    bottom: 0;
+}
+#Water4{
+    height: 50%;
+    display: none;
+    bottom: 0;
 }
 
 /*A Map that covers the screen as you pick where to go. The Bike will move to and fro as you decide, ala Pikmin.*/

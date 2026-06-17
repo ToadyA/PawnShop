@@ -1,9 +1,15 @@
+document.body.style.backgroundColor = "#599aac";
 let day = localStorage.getItem('day');          //true: daytime worker, false: night worker; this alternates on visiting the appraisal office particularly.
 captain = document.getElementById("Operator");
-if(day)
+if(day){
+    console.log("Sun alert!");
     captain.src = "images/mines/Bellows.png";
-else
+}
+else{
+    console.log("Sun alertn't.");
     captain.src = "images/mines/Warthog.png";
+}
+    
 
 /*  There are rules to determine what layers are possible next. We default to 3 layers of water plus 1 layer of rock.
 Once no layers are water anymore, non-rock layers become much more likely. This is overridden if you hit a Bunker.
@@ -103,49 +109,77 @@ function nextLayer(a, b, c, d){
     return e;
 }
 
+
 function valuation(){
     //determine the value of the finds based on the syringe contents.
     ;
 }
 
 let deep = 0;
+let cranky = 35.5;
 console.log("deep: " + deep);
 crank = document.getElementById("Crank");
 crank.addEventListener("click", () =>{
     deep ++;
     if(deep % 3 == 1)
-        crank.style.top = '44%';
+        cranky = 44;
     else if(deep % 3 == 2)
-        crank.style.top = '40%';
+        cranky = 40;
     else
-        crank.style.top = '35.5%';
-    crank.style.cursor = 'pointer';
+        cranky = 35.5;
+    crank.style.top = cranky + "%";
     console.log("deep: " + deep);
 });
 
+bob = true;
+bobbing = 0;
+bobber();
+function bobber(){
+    if(bob){
+        document.getElementById("Boat").style.top = (6 + Math.sin(bobbing)) + "%";
+        document.getElementById("Operator").style.top = (24 + Math.sin(bobbing)) + "%";
+        document.getElementById("Operhand").style.top = (24 + Math.sin(bobbing)) + "%";
+        document.getElementById("Crank").style.top = (cranky + Math.sin(bobbing)) + "%";
+        bobbing += (Math.PI / 4);
+        console.log("bobbing: " + bobbing + ", and sin: " + Math.sin(bobbing));
+        setTimeout(() =>{
+            bobber();
+        }, 250);
+    }
+}
+
 let talk = 0;        //1 = talking, 2 = cooldown, 0 = available to talk.
 captain.addEventListener("click", ()=>{
+    console.log("you clicked the Captain");
     if(talk == 0){
-        if(day)
+        if(day){
+            console.log("Bellows talkin here!");
             bellowTalky();
-        else
+        }
+        else{
             hogTalky();
+            console.log("Warthog talkin here!");
+        }
         talk = 1;
     }
     else{
         talk = 2;
+        console.log("Diplomacy has failed...");
         setTimeout(() =>{
             talk = 0;
             if(day)
                 captain.src = "images/mines/Bellows.png";
             else
                 captain.src = "images/mines/Warthog.png";
+            console.log("It seems relations have changed.");
         }, 100);
     }
     
 });
 function bellowTalky(){
-    captain.src = "images/mines/BellowsChange.png";
+    console.log("Bellows talkin here!");
+    if(talk == 1){
+        captain.src = "images/mines/BellowsChange.png";
         setTimeout(() =>{
             captain.src = "images/mines/BellowsFlip.png";
             setTimeout(() =>{
@@ -153,12 +187,13 @@ function bellowTalky(){
                 setTimeout(() =>{
                     captain.src = "images/mines/BellowsFlip.png";
                     setTimeout(() =>{
-                        if(talk)
+                        if(talk == 1)
                             bellowTalky();
                     }, 500);
                 }, 500);
             }, 500);
         }, 500);
+    }
 }
 function hogTalky(){
     captain.src = "images/mines/WarthogLeft.png";
@@ -169,8 +204,8 @@ function hogTalky(){
                 setTimeout(() =>{
                     captain.src = "images/mines/Warthog.png";
                     setTimeout(() =>{
-                        if(talk)
-                            bellowTalky();
+                        if(talk == 1)
+                            hogTalky();
                     }, 500);
                 }, 500);
             }, 500);
@@ -229,4 +264,105 @@ document.getElementById("HomeMap").addEventListener("click", () =>{
 });
 document.getElementById("MinesMap").addEventListener("click", () =>{
     location.href="./DigSite.html";
+});
+
+//Animations for starting/ending the minigame
+
+function boatUp(){
+    if(aniCooldown){
+        if(bobbing >= (Math.PI * 1.5)){
+            waveRaise(0);
+        }
+        else{
+            setTimeout(() =>{
+                document.getElementById("Boat").style.top = (5 + Math.sin(bobbing)) + "%";
+                document.getElementById("Operator").style.top = (24 + Math.sin(bobbing)) + "%";
+                document.getElementById("Operhand").style.top = (24 + Math.sin(bobbing)) + "%";
+                document.getElementById("Crank").style.top = (cranky + Math.sin(bobbing)) + "%";
+                bobbing += (Math.PI / 4);
+                boatUp();
+            }, 80);
+        }
+        
+    }
+}
+
+function waveRaise(n){
+    if(aniCooldown){
+        if(n == 0){
+            setTimeout(() =>{
+                document.getElementById("Boat").style.top = (5 - bobbing) + "%";
+                document.getElementById("Operator").style.top = (24 - bobbing) + "%";
+                document.getElementById("Operhand").style.top = (24 - bobbing) + "%";
+                document.getElementById("Crank").style.top = (cranky - bobbing) + "%";
+                bobbing += 1.5;
+                waveRaise(0);
+            }, 70);
+        }
+        else if(n == 1){
+            setTimeout(() =>{
+                document.getElementById("Waves").style.bottom = (20 + bobbing) + "%";
+                document.getElementById("Water1").style.bottom = bobbing + "%";
+                waveRaise(1);
+            }, 70);
+        }
+        else if(n == 2){
+            setTimeout(() =>{
+                document.getElementById("Water2").style.bottom = (bobbing - 18) + "%";
+                waveRaise(2);
+            }, 70);
+        }
+        else if(n == 3){
+            setTimeout(() =>{
+                document.getElementById("Water3").style.bottom = (bobbing - 40) + "%";
+                waveRaise(3);
+            }, 70);
+        }
+    }
+}
+
+let aniCooldown = false;
+let waveStage = 0;
+document.addEventListener("keydown", (e) =>{
+    if(e.key == " "){
+        if(!aniCooldown){
+            console.log("Animation started via pressing Spacebar");
+            aniCooldown = true;
+            bob = false;
+            document.getElementById("Pier").style.display = "none";
+            wallMap.style.display = "none";
+            bobbing = 0;
+            boatUp();
+            setTimeout(() =>{
+                waveRaise(waveStage);                   //top wave and Water1 rise while Water2 remains stationary
+                waveStage = 1;
+                document.getElementById("Water2").style.display = "block";
+                setTimeout(() =>{
+                    waveRaise(waveStage);               //Water2 joins in as Water3 becomes visible and stationary
+                    waveStage = 2;
+                    document.getElementById("Water3").style.display = "block";
+                    setTimeout(() =>{
+                        waveRaise(waveStage);           //Water3 joins in as Water 4 becomes visible and stationary
+                        waveStage = 3;
+                        document.getElementById("Water4").style.display = "block";
+                        setTimeout(() =>{               //Water divs are made invisible along with captain and boat stuff.
+                            waveStage = 4;
+                            aniCooldown = false;
+                            document.getElementById("Boat").style.display = "none";
+                            document.getElementById("Operator").style.display = "none";
+                            document.getElementById("Operhand").style.display = "none";
+                            document.getElementById("Crank").style.display = "none";
+                            document.getElementById("Water1").style.display = "none";
+                            document.getElementById("Water2").style.display = "none";
+                            document.getElementById("Water3").style.display = "none";
+                            document.getElementById("Water4").style.display = "none";
+                            document.getElementById("Waves").style.display = "none";
+                            document.body.style.backgroundColor = "#306d58";
+                        }, 500);
+                    }, 500);
+                }, 500);
+            }, 100);
+        }
+        
+    }
 });
