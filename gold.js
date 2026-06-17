@@ -80,3 +80,10 @@ document.getElementById("AppraisalMap").addEventListener("click", ()=>{
     localStorage.setItem('office', 3);
     location.href="./Service.html";
 });
+
+document.getElementById("HomeMap").addEventListener("click", () =>{
+    location.href="./PawnShop.html";
+});
+document.getElementById("MinesMap").addEventListener("click", () =>{
+    location.href="./DigSite.html";
+});

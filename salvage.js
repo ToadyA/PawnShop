@@ -1,4 +1,9 @@
-
+let day = localStorage.getItem('day');          //true: daytime worker, false: night worker; this alternates on visiting the appraisal office particularly.
+captain = document.getElementById("Operator");
+if(day)
+    captain.src = "images/mines/Bellows.png";
+else
+    captain.src = "images/mines/Warthog.png";
 
 /*  There are rules to determine what layers are possible next. We default to 3 layers of water plus 1 layer of rock.
 Once no layers are water anymore, non-rock layers become much more likely. This is overridden if you hit a Bunker.
@@ -18,7 +23,7 @@ Volcanic rock guarantees high value for anything found next, so long as volcanic
 */
 let syringe = [0,0,0,0];
 let bunker = false;
-function (a, b, c, d){
+function nextLayer(a, b, c, d){
     //pop the top layer, then roll for the next layer and push the result up from the bottom.
     const e = 0;
     const f = Math.random(0, 1) * 100;
@@ -103,7 +108,125 @@ function valuation(){
     ;
 }
 
-crank = document.getElementById("spool");
-crank.addEventListener("click", () => {
-    ;
+let deep = 0;
+console.log("deep: " + deep);
+crank = document.getElementById("Crank");
+crank.addEventListener("click", () =>{
+    deep ++;
+    if(deep % 3 == 1)
+        crank.style.top = '44%';
+    else if(deep % 3 == 2)
+        crank.style.top = '40%';
+    else
+        crank.style.top = '35.5%';
+    crank.style.cursor = 'pointer';
+    console.log("deep: " + deep);
+});
+
+let talk = 0;        //1 = talking, 2 = cooldown, 0 = available to talk.
+captain.addEventListener("click", ()=>{
+    if(talk == 0){
+        if(day)
+            bellowTalky();
+        else
+            hogTalky();
+        talk = 1;
+    }
+    else{
+        talk = 2;
+        setTimeout(() =>{
+            talk = 0;
+            if(day)
+                captain.src = "images/mines/Bellows.png";
+            else
+                captain.src = "images/mines/Warthog.png";
+        }, 100);
+    }
+    
+});
+function bellowTalky(){
+    captain.src = "images/mines/BellowsChange.png";
+        setTimeout(() =>{
+            captain.src = "images/mines/BellowsFlip.png";
+            setTimeout(() =>{
+                captain.src = "images/mines/BellowsBack.png";
+                setTimeout(() =>{
+                    captain.src = "images/mines/BellowsFlip.png";
+                    setTimeout(() =>{
+                        if(talk)
+                            bellowTalky();
+                    }, 500);
+                }, 500);
+            }, 500);
+        }, 500);
+}
+function hogTalky(){
+    captain.src = "images/mines/WarthogLeft.png";
+        setTimeout(() =>{
+            captain.src = "images/mines/Warthog.png";
+            setTimeout(() =>{
+                captain.src = "images/mines/WarthogRight.png";
+                setTimeout(() =>{
+                    captain.src = "images/mines/Warthog.png";
+                    setTimeout(() =>{
+                        if(talk)
+                            bellowTalky();
+                    }, 500);
+                }, 500);
+            }, 500);
+        }, 500);
+}
+///Map
+
+let noMap = document.getElementById("CancelMap");
+let wallMap = document.getElementById("Map");
+wallMap.addEventListener("click", () =>{
+    document.getElementById("WhereGo").style.display = "block";
+    noMap.style.display = "block";
+    document.getElementById("HomeMap").style.display = "block";
+    document.getElementById("LocustMap").style.display = "block";
+    document.getElementById("TigerMap").style.display = "block";
+    document.getElementById("MushroomMap").style.display = "block";
+    document.getElementById("AppraisalMap").style.display = "block";
+    document.getElementById("MinesMap").style.display = "block";
+    document.getElementById("BikeMap").style.display = "block";
+});
+noMap.addEventListener("click", () =>{
+    document.getElementById("WhereGo").style.display = "none";
+    noMap.style.display = "none";
+    document.getElementById("HomeMap").style.display = "none";
+    document.getElementById("LocustMap").style.display = "none";
+    document.getElementById("TigerMap").style.display = "none";
+    document.getElementById("MushroomMap").style.display = "none";
+    document.getElementById("AppraisalMap").style.display = "none";
+    document.getElementById("MinesMap").style.display = "none";
+    document.getElementById("BikeMap").style.display = "none";
+});
+
+/*  0: Tiger
+    1: Locust
+    2: Mushroom
+    3: Appraisal    */
+document.getElementById("TigerMap").addEventListener("click", ()=>{
+    localStorage.setItem('office', 0);
+    location.href="./Service.html";
+});
+document.getElementById("LocustMap").addEventListener("click", ()=>{
+    localStorage.setItem('office', 1);
+    location.href="./Service.html";
+});
+document.getElementById("MushroomMap").addEventListener("click", ()=>{
+    localStorage.setItem('office', 2);
+    location.href="./Service.html";
+});
+document.getElementById("AppraisalMap").addEventListener("click", ()=>{
+    localStorage.setItem('office', 3);
+    location.href="./Service.html";
+});
+
+document.getElementById("HomeMap").addEventListener("click", () =>{
+    location.href="./PawnShop.html";
+});
+document.getElementById("MinesMap").addEventListener("click", () =>{
+    location.href="./DigSite.html";
 });

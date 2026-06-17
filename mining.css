@@ -1,9 +1,59 @@
+#Operator{
+    position: absolute;
+    top: 24%;
+    left: 40%;
+    width: 20%;
+    height: 40%;
+    cursor: pointer;
+}
+#Operhand{
+    position: absolute;
+    top: 24%;
+    left: 40%;
+    width: 20%;
+    height: 40%;
+    z-index: 2;
+}
+#Boat{
+    position: absolute;
+    top: 5%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    z-index: 1;
+}
+#Crank{
+    position: absolute;
+    top: 35%;
+    left: 35.5%;
+    width: 1.5%;
+    height: 2.5%;
+    z-index: 2;
+    cursor: pointer;
+}
+#Waves{
+    position: absolute;
+    bottom: 0%;
+    left: -1%;
+    width: 101%;
+    height: 60%;
+    z-index: 3;
+}
+#Pier{
+    position: absolute;
+    bottom: 0%;
+    left: 20%;
+    width: 60%;
+    height: 50%;
+    z-index: 4;
+}
+
 /*A Map that covers the screen as you pick where to go. The Bike will move to and fro as you decide, ala Pikmin.*/
 #Map{
     position: absolute;
-    width: 15%;
-    left: -3%;
-    top: 45%;
+    width: 12%;
+    left: 20%;
+    top: 65%;
     z-index: 5;
     cursor: pointer;
 }
@@ -30,6 +80,7 @@
     width: 10%;
     display: none;
     z-index: 22;
+    pointer-events: none;
 }
 .Mappy{
     position: absolute;

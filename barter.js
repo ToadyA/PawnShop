@@ -238,6 +238,13 @@ document.getElementById("AppraisalMap").addEventListener("click", ()=>{
     location.href="./Service.html";
 });
 
+document.getElementById("HomeMap").addEventListener("click", () =>{
+    location.href="./PawnShop.html";
+});
+document.getElementById("MinesMap").addEventListener("click", () =>{
+    location.href="./DigSite.html";
+});
+
 //fetch the data on what today is: the field weather, the time of day, the number day since beginning, and whether it is a holiday.
 function getLoan(){
     const loan = localStorage.getItem('loan');
