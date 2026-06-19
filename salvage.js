@@ -9,7 +9,7 @@ else{
     console.log("Sun alertn't.");
     captain.src = "images/mines/Warthog.png";
 }
-    
+console.log("This file has been updated and changed!");
 
 /*  There are rules to determine what layers are possible next. We default to 3 layers of water plus 1 layer of rock.
 Once no layers are water anymore, non-rock layers become much more likely. This is overridden if you hit a Bunker.
@@ -269,126 +269,110 @@ document.getElementById("MinesMap").addEventListener("click", () =>{
 //Animations for starting/ending the minigame
 
 let dunk = -50;
+let aniTimer = 0;
 function boatUp(){
-    if(aniCooldown){
-        if(bobbing >= (Math.PI * 1.5)){
-            waveRaise(0);
-        }
-        else{
-            setTimeout(() =>{
-                document.getElementById("Boat").style.top = (5 + Math.sin(bobbing)) + "%";
-                document.getElementById("Operator").style.top = (24 + Math.sin(bobbing)) + "%";
-                document.getElementById("Operhand").style.top = (24 + Math.sin(bobbing)) + "%";
-                document.getElementById("Crank").style.top = (cranky + Math.sin(bobbing)) + "%";
-                bobbing += (Math.PI / 4);
-                boatUp();
-            }, 80);
-        }
-        
-    }
+    console.log("boatUp, baby!");
+    if(bobbing >= (Math.PI * 1.5))
+        waveRaise(0);
+    setTimeout(() =>{
+        document.getElementById("Boat").style.top = (5 + Math.sin(bobbing)) + "%";
+        document.getElementById("Operator").style.top = (24 + Math.sin(bobbing)) + "%";
+        document.getElementById("Operhand").style.top = (24 + Math.sin(bobbing)) + "%";
+        document.getElementById("Crank").style.top = (cranky + Math.sin(bobbing)) + "%";
+        bobbing += (Math.PI / 4);
+        boatUp();
+    }, 80);
 }
 function boatDown(){
-    if(aniCooldown){
-        if(bobbing >= (Math.PI * 1.5)){
-            waveRaise(0);
-        }
-        else{
-            setTimeout(() =>{
-                document.getElementById("Boat").style.top = (5 + Math.sin(bobbing)) + "%";
-                document.getElementById("Operator").style.top = (24 + Math.sin(bobbing)) + "%";
-                document.getElementById("Operhand").style.top = (24 + Math.sin(bobbing)) + "%";
-                document.getElementById("Crank").style.top = (cranky + Math.sin(bobbing)) + "%";
-                bobbing += (Math.PI / 4);
-                boatUp();
-            }, 80);
-        }
-        
+    if(bobbing >= (Math.PI * 1.5)){
+        waveRaise(0);
+    }
+    else{
+        setTimeout(() =>{
+            document.getElementById("Boat").style.top = (5 + Math.sin(bobbing)) + "%";
+            document.getElementById("Operator").style.top = (24 + Math.sin(bobbing)) + "%";
+            document.getElementById("Operhand").style.top = (24 + Math.sin(bobbing)) + "%";
+            document.getElementById("Crank").style.top = (cranky + Math.sin(bobbing)) + "%";
+            bobbing += (Math.PI / 4);
+            boatUp();
+        }, 80);
     }
 }
-
+//check waveStage to encompass, check aniTimer to proc next wave
 function waveRaise(n){
-    if(aniCooldown){
-        if(n <= 0){
-            setTimeout(() =>{
-                document.getElementById("Boat").style.top = (5 - bobbing) + "%";
-                document.getElementById("Operator").style.top = (24 - bobbing) + "%";
-                document.getElementById("Operhand").style.top = (24 - bobbing) + "%";
-                document.getElementById("Crank").style.top = (cranky - bobbing) + "%";
-                bobbing += 1.5;
-                waveRaise(0);
-            }, 70);
-        }
-        else if(n == 1){
-            setTimeout(() =>{
-                document.getElementById("Waves").style.bottom = (20 + bobbing) + "%";
-                document.getElementById("Water1").style.bottom = bobbing + "%";
-                waveRaise(1);
-            }, 70);
-        }
-        else if(n == 2){
-            setTimeout(() =>{
-                document.getElementById("Water2").style.bottom = (bobbing - 18) + "%";
-                waveRaise(2);
-            }, 70);
-        }
-        else if(n == 3){
-            setTimeout(() =>{
-                document.getElementById("Water3").style.bottom = (bobbing - 40) + "%";
-                waveRaise(3);
-            }, 70);
-        }
-        else if(n == 4){
-            setTimeout(() =>{
-                console.log("waveRaise4; Drill: " + document.getElementById('Drill').style.display + ", and " + document.getElementById('Drill').style.top);
-                document.getElementById("Drill").style.top = dunk + "%";
-                waveRaise(4);
-                dunk += (Math.PI / 4);
-                console.log("dunk in waveRaise4: " + dunk);
-            }, 70);
-        }
-        else if(n == 5){
-            setTimeout(() =>{
-                console.log("waveRaise4; Cord: " + document.getElementById('Cord').style.display + ", and " + document.getElementById('Cord').style.top);
-                document.getElementById("Drill").style.top = (dunk - 45) + "%";
-                waveRaise(5);
-                dunk += (Math.PI / 4);
-                console.log("dunk in waveRaise4: " + dunk);
-            }, 70);
-        }
+    console.log("woo yea, waveRaise.");
+    if(aniTimer % 8 && n <= 3)
+        waveStage ++;
+    else if(aniTimer % 32){
+        waveStage ++;
+        document.getElementById("Boat").style.display = "none";
+        document.getElementById("Operator").style.display = "none";
+        document.getElementById("Operhand").style.display = "none";
+        document.getElementById("Crank").style.display = "none";
+        document.getElementById("Water1").style.display = "none";
+        document.getElementById("Water2").style.display = "none";
+        document.getElementById("Water3").style.display = "none";
+        document.getElementById("Water4").style.display = "none";
+        document.getElementById("Waves").style.display = "none";
+        document.body.style.backgroundColor = "#306d58";
     }
+        
+    if(n >= 1){
+        setTimeout(() =>{
+            document.getElementById("Water2").style.display = "block";
+            document.getElementById("Waves").style.bottom = (20 + bobbing) + "%";
+            document.getElementById("Water1").style.bottom = bobbing + "%";
+        }, 70);
+    }
+    if(n >= 2){
+        setTimeout(() =>{
+            document.getElementById("Water3").style.display = "block";
+            document.getElementById("Water2").style.bottom = (bobbing - 18) + "%";
+        }, 70);
+    }
+    if(n >= 3){
+        setTimeout(() =>{
+            document.getElementById("Water4").style.display = "block";
+            document.getElementById("Water3").style.bottom = (bobbing - 40) + "%";
+        }, 70);
+    }
+
+    if(n >= 4){
+        setTimeout(() =>{
+            console.log("waveRaise4; Drill: " + document.getElementById('Drill').style.display + ", and " + document.getElementById('Drill').style.top);
+            document.getElementById("Drill").style.top = dunk + "%";
+            dunk += (Math.PI / 4);
+            console.log("dunk in waveRaise4: " + dunk);
+        }, 70);
+    }
+    if(n == 5){
+        setTimeout(() =>{
+            console.log("waveRaise4; Cord: " + document.getElementById('Cord').style.display + ", and " + document.getElementById('Cord').style.top);
+            document.getElementById("Drill").style.top = (dunk - 45) + "%";
+            dunk += (Math.PI / 4);
+            console.log("dunk in waveRaise4: " + dunk);
+        }, 70);
+    }
+    setTimeout(() =>{
+        document.getElementById("Boat").style.top = (5 - bobbing) + "%";
+        document.getElementById("Operator").style.top = (24 - bobbing) + "%";
+        document.getElementById("Operhand").style.top = (24 - bobbing) + "%";
+        document.getElementById("Crank").style.top = (cranky - bobbing) + "%";
+        bobbing += 1.5;
+        aniTimer ++;
+        console.log("tier " + waveStage);
+        waveRaise(waveStage);
+    }, 70);
+    
+    if(n >= 6){
+        aniCooldown = false;
+        console.log("Show's over");
+        break;
+    }
+        
 }
 function waveCede(n){
-    if(aniCooldown){
-        if(n <= 0){
-            setTimeout(() =>{
-                document.getElementById("Boat").style.top = (5 - bobbing) + "%";
-                document.getElementById("Operator").style.top = (24 - bobbing) + "%";
-                document.getElementById("Operhand").style.top = (24 - bobbing) + "%";
-                document.getElementById("Crank").style.top = (cranky - bobbing) + "%";
-                bobbing += 1.5;
-                waveRaise(0);
-            }, 70);
-        }
-        else if(n == 1){
-            setTimeout(() =>{
-                document.getElementById("Waves").style.bottom = (20 + bobbing) + "%";
-                document.getElementById("Water1").style.bottom = bobbing + "%";
-                waveRaise(1);
-            }, 70);
-        }
-        else if(n == 2){
-            setTimeout(() =>{
-                document.getElementById("Water2").style.bottom = (bobbing - 18) + "%";
-                waveRaise(2);
-            }, 70);
-        }
-        else if(n == 3){
-            setTimeout(() =>{
-                document.getElementById("Water3").style.bottom = (bobbing - 40) + "%";
-                waveRaise(3);
-            }, 70);
-        }
-    }
+    ;
 }
 
 let aniCooldown = false;
@@ -396,65 +380,19 @@ let waveStage = 0;
 document.addEventListener("keydown", (e) =>{
     if(e.key == " "){
         if(!aniCooldown && waveStage <= 0){
-            console.log("Animation started via pressing Spacebar");
+            console.log("Animation started via pressing Spacebar, up edition");
             aniCooldown = true;
             bob = false;
             document.getElementById("Pier").style.display = "none";
             wallMap.style.display = "none";
             bobbing = 0;
+            aniTimer = 0;
+            dunk = -50;
             boatUp();
-            console.log("tier " + waveStage);
-            setTimeout(() =>{
-                waveRaise(waveStage);                   //top wave and Water1 rise while Water2 remains stationary
-                waveStage = 1;
-                document.getElementById("Water2").style.display = "block";
-                console.log("tier " + waveStage);
-                setTimeout(() =>{
-                    waveRaise(waveStage);               //Water2 joins in as Water3 becomes visible and stationary
-                    waveStage = 2;
-                    document.getElementById("Water3").style.display = "block";
-                    console.log("tier " + waveStage);
-                    setTimeout(() =>{
-                        waveRaise(waveStage);           //Water3 joins in as Water 4 becomes visible and stationary
-                        waveStage = 3;
-                        document.getElementById("Water4").style.display = "block";
-                        console.log("tier " + waveStage);
-                        setTimeout(() =>{               //Water divs are made invisible along with captain and boat stuff.
-                            waveStage = 4;
-                            document.getElementById("Boat").style.display = "none";
-                            document.getElementById("Operator").style.display = "none";
-                            document.getElementById("Operhand").style.display = "none";
-                            document.getElementById("Crank").style.display = "none";
-                            document.getElementById("Water1").style.display = "none";
-                            document.getElementById("Water2").style.display = "none";
-                            document.getElementById("Water3").style.display = "none";
-                            document.getElementById("Water4").style.display = "none";
-                            document.getElementById("Waves").style.display = "none";
-                            document.body.style.backgroundColor = "#306d58";
-                            console.log("tier " + waveStage);
-                                //the drill appears!
-                            dunk = 30;
-                            document.getElementById("Drill").style.display = "block";
-                            console.log("Drill made visible " + document.getElementById('Drill').style.display);
-                            setTimeout(() =>{           
-                                waveStage = 5;
-                                document.getElementById("Cord").style.display = "block";
-                                console.log("tier " + waveStage);
-                                console.log("Cord made visible " + document.getElementById('Cord').style.display);
-                                setTimeout(() =>{           //thus ends the animation via waveStage = 6
-                                    waveStage = 6;
-                                    console.log("tier " + waveStage);
-                                    aniCooldown = false;
-                                    console.log("Show's over");
-                                }, 2000);
-                            }, 2000);
-                        }, 750);
-                    }, 500);
-                }, 400);
-            }, 100);
+            //waveRaise(0);
         }
         else if(!aniCooldown){
-            console.log("Animation started via pressing Spacebar");
+            console.log("Animation started via pressing Spacebar, down edition");
             aniCooldown = true;
             bob = false;
             document.getElementById("Boat").style.display = "block";
@@ -466,40 +404,18 @@ document.addEventListener("keydown", (e) =>{
             document.getElementById("Water3").style.display = "block";
             document.getElementById("Water4").style.display = "block";
             document.getElementById("Waves").style.display = "block";
-            document.getElementById("Boat").style.top = "-50%";
-            document.getElementById("Operator").style.display = "none";
-            document.getElementById("Operhand").style.display = "none";
-            document.getElementById("Crank").style.display = "none";
-            document.getElementById("Water1").style.display = "none";
-            document.getElementById("Water2").style.display = "none";
-            document.getElementById("Water3").style.display = "none";
-            document.getElementById("Water4").style.display = "none";
-            document.getElementById("Waves").style.display = "none";
+            document.getElementById("Boat").style.top = "-100%";
+            document.getElementById("Operator").style.top = "-100%";
+            document.getElementById("Operhand").style.top = "-100%";
+            document.getElementById("Crank").style.top = "-100%";
+            document.getElementById("Water1").style.top = "-50%";
+            document.getElementById("Water2").style.top = "-50%";
+            document.getElementById("Water3").style.top = "-50%";
+            document.getElementById("Water4").style.top = "-50%";
+            document.getElementById("Waves").style.top = "-50%";
             bobbing = 0;
-            waveCede(waveStage);
-            setTimeout(() =>{
-                waveRaise(waveStage);                   //top wave and Water1 rise while Water2 remains stationary
-                waveStage = 1;
-                document.getElementById("Water2").style.display = "block";
-                setTimeout(() =>{
-                    waveRaise(waveStage);               //Water2 joins in as Water3 becomes visible and stationary
-                    waveStage = 2;
-                    document.getElementById("Water3").style.display = "block";
-                    setTimeout(() =>{
-                        waveRaise(waveStage);           //Water3 joins in as Water 4 becomes visible and stationary
-                        waveStage = 3;
-                        document.getElementById("Water4").style.display = "block";
-                        setTimeout(() =>{               //Water divs are made invisible along with captain and boat stuff.
-                            waveStage = 4;
-                            aniCooldown = false;
-                            
-                            document.body.style.backgroundColor = "#306d58";
-                            setTimeout(() =>{           //the drill appears!
-                            }, 800);
-                        }, 800);
-                    }, 500);
-                }, 400);
-            }, 100);
+            waveStage = 6;
+            boatDown();
         }
     }
 });
