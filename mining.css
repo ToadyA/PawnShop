@@ -81,6 +81,26 @@
     bottom: 0;
 }
 
+#Drill{
+    position: absolute;
+    height: 50%;
+    width: 30%;
+    top: -60%;
+    left: 50%;
+    z-index: 4;
+    display: none;
+}
+#Cord{
+    position: absolute;
+    height: 50%;
+    width: 30%;
+    top: -60%;
+    left: 50%;
+    z-index: 3;
+    display: none;
+}
+
+
 /*A Map that covers the screen as you pick where to go. The Bike will move to and fro as you decide, ala Pikmin.*/
 #Map{
     position: absolute;
