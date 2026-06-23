@@ -71,7 +71,7 @@
     bottom: 0;
 }
 #Water3{
-    height: 35%;
+    height: 40%;
     display: none;
     bottom: 0;
 }
@@ -87,7 +87,7 @@
     width: 30%;
     top: -60%;
     left: 30%;
-    z-index: 4;
+    z-index: 5;
 }
 #Cord{
     position: absolute;
@@ -95,9 +95,16 @@
     width: 30%;
     top: -100%;
     left: 30%;
-    z-index: 3;
+    z-index: 4;
 }
 
+.Sediment{
+    position: absolute;
+    left: -1%;
+    width: 101%;
+    z-index: 3;
+    pointer-events: none;
+}
 
 /*A Map that covers the screen as you pick where to go. The Bike will move to and fro as you decide, ala Pikmin.*/
 #Map{

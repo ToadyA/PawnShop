@@ -285,28 +285,14 @@ function boatUp(){
         }, 80);
     }
 }
-function boatDown(){
-    if(bobbing >= (Math.PI * 1.5)){
-        waveRaise(0);
-    }
-    else{
-        setTimeout(() =>{
-            document.getElementById("Boat").style.top = (5 + Math.sin(bobbing)) + "%";
-            document.getElementById("Operator").style.top = (24 + Math.sin(bobbing)) + "%";
-            document.getElementById("Operhand").style.top = (24 + Math.sin(bobbing)) + "%";
-            document.getElementById("Crank").style.top = (cranky + Math.sin(bobbing)) + "%";
-            bobbing += (Math.PI / 4);
-            boatUp();
-        }, 80);
-    }
-}
+
 //check waveStage to encompass, check aniTimer to proc next wave
 function waveRaise(n){
     if(aniCooldown){
         console.log("waveRaise; aniTimer: " + aniTimer);
-        if(aniTimer % 8 && n <= 3)
+        if((aniTimer % 8 == 0)&& n <= 3)
             waveStage ++;
-        else if(aniTimer % 32){
+        else if(aniTimer % 32 == 0){
             waveStage ++;
             document.getElementById("Boat").style.display = "none";
             document.getElementById("Operator").style.display = "none";
@@ -318,25 +304,29 @@ function waveRaise(n){
             document.getElementById("Water4").style.display = "none";
             document.getElementById("Waves").style.display = "none";
             document.body.style.backgroundColor = "#306d58";
+            console.log("bye bye boat");
         }
             
         if(n >= 1){
             setTimeout(() =>{
                 document.getElementById("Water2").style.display = "block";
-                document.getElementById("Waves").style.bottom = (20 + bobbing) + "%";
-                document.getElementById("Water1").style.bottom = bobbing + "%";
+                document.getElementById("Waves").style.bottom = (bobbing + 14) + "%";
+                document.getElementById("Water1").style.bottom = (bobbing - 5) + "%";
+                console.log("inclusive of Water1, and Water2 is now visible.");
             }, 100);
         }
-        if(n >= 2){
+        if(aniTimer >= 6){
             setTimeout(() =>{
                 document.getElementById("Water3").style.display = "block";
-                document.getElementById("Water2").style.bottom = (bobbing - 18) + "%";
+                document.getElementById("Water2").style.bottom = (bobbing - 20) + "%";
+                console.log("inclusive of Water2, and Water3 is now visible.");
             }, 100);
         }
         if(n >= 3){
             setTimeout(() =>{
                 document.getElementById("Water4").style.display = "block";
-                document.getElementById("Water3").style.bottom = (bobbing - 40) + "%";
+                document.getElementById("Water3").style.bottom = (bobbing - 50) + "%";
+                console.log("inclusive of Water3, and Water4 is now visible.");
             }, 100);
         }
 
@@ -344,7 +334,7 @@ function waveRaise(n){
             setTimeout(() =>{
                 console.log("waveRaise4; Drill: " + document.getElementById('Drill').style.display + ", and " + document.getElementById('Drill').style.top);
                 document.getElementById("Drill").style.top = dunk + "%";
-                dunk += (Math.PI / 6);
+                dunk += (Math.PI / 3);
                 console.log("dunk in waveRaise4: " + dunk);
             }, 100);
         }
@@ -352,7 +342,7 @@ function waveRaise(n){
             setTimeout(() =>{
                 console.log("waveRaise4; Cord: " + document.getElementById('Cord').style.display + ", and " + document.getElementById('Cord').style.top);
                 document.getElementById("Cord").style.top = (dunk - 85) + "%";
-                dunk += (Math.PI / 6);
+                dunk += (Math.PI / 3);
                 console.log("dunk in waveRaise5: " + dunk);
             }, 100);
         }
@@ -364,18 +354,29 @@ function waveRaise(n){
             //bobbing += 1.5;
             aniTimer ++;
             console.log("tier " + waveStage);
+            bobbing += (Math.PI);
             waveRaise(waveStage);
         }, 100);
         
-        if(aniTimer >= 65){
+        if(aniTimer >= 57){
             aniCooldown = false;
             console.log("Show's over");
         }
     }
 }
-function waveCede(n){
+
+function boreDown(){
     ;
+    /*
+    #444c43     rock
+    #306d58     water
+    #171a19     bunker
+    #41572d     fossil
+    #25332d     volcanic rock
+    #506b0f     loot
+    */
 }
+
 
 let aniCooldown = false;
 let waveStage = 0;
@@ -391,12 +392,12 @@ document.addEventListener("keydown", (e) =>{
             aniTimer = 0;
             dunk = -50;
             boatUp();
-            //waveRaise(0);
         }
         else if(!aniCooldown){
             console.log("Animation started via pressing Spacebar, down edition");
             aniCooldown = true;
             bob = false;
+            //plant everything for descent
             document.getElementById("Boat").style.display = "block";
             document.getElementById("Operator").style.display = "block";
             document.getElementById("Operhand").style.display = "block";
@@ -417,7 +418,11 @@ document.addEventListener("keydown", (e) =>{
             document.getElementById("Waves").style.top = "-50%";
             bobbing = 0;
             //waveStage = 6;
-            boatDown();
+            //boatDown();
         }
+    }
+    else if(e.key == "s"){
+        console.log("down drill down");
+
     }
 });
