@@ -102,8 +102,36 @@
     position: absolute;
     left: -1%;
     width: 101%;
+    height: 20%;
     z-index: 3;
+    display: none;
     pointer-events: none;
+}
+#Layer0{
+    bottom: 0%;
+    height: 0%;
+    display: none;
+    background-color: #306d58;
+}
+#Layer1{
+    bottom: 0%;
+    background-color: #306d58;
+}
+#Layer2{
+    bottom: 20%;
+    background-color: #306d58;
+}
+#Layer3{
+    bottom: 40%;
+    background-color: #306d58;
+}
+#Layer4{
+    bottom: 60%;
+    background-color: #306d58;
+}
+#Layer5{
+    bottom: 80%;
+    background-color: #306d58;
 }
 
 /*A Map that covers the screen as you pick where to go. The Bike will move to and fro as you decide, ala Pikmin.*/

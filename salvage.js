@@ -31,7 +31,7 @@ let syringe = [0,0,0,0];
 let bunker = false;
 function nextLayer(a, b, c, d){
     //pop the top layer, then roll for the next layer and push the result up from the bottom.
-    const e = 0;
+    let e = 0;
     const f = Math.random(0, 1) * 100;
     if(bunker){                             //bunker is active
         if(f <= 4)
@@ -120,7 +120,9 @@ let cranky = 35.5;
 console.log("deep: " + deep);
 crank = document.getElementById("Crank");
 crank.addEventListener("click", () =>{
-    deep ++;
+    deep --;
+    if(deep <= 0)
+        deep = 0;
     if(deep % 3 == 1)
         cranky = 44;
     else if(deep % 3 == 2)
@@ -286,6 +288,13 @@ function boatUp(){
     }
 }
 
+let layer0 = document.getElementById("Layer0");     //the next layer, not yet encountered
+let layer1 = document.getElementById("Layer1");
+let layer2 = document.getElementById("Layer2");
+let layer3 = document.getElementById("Layer3");
+let layer4 = document.getElementById("Layer4");
+let layer5 = document.getElementById("Layer5");     //a layer which has been passed, now purely accessory
+
 //check waveStage to encompass, check aniTimer to proc next wave
 function waveRaise(n){
     if(aniCooldown){
@@ -359,22 +368,70 @@ function waveRaise(n){
         }, 100);
         
         if(aniTimer >= 57){
+            layer0.style.display = "block";
+            layer1.style.display = "block";
+            layer2.style.display = "block";
+            layer3.style.display = "block";
+            layer4.style.display = "block";
+            layer5.style.display = "block";
             aniCooldown = false;
             console.log("Show's over");
         }
     }
 }
 
-function boreDown(){
-    ;
+let colors = ["#306d58", "#444c43", "#506b0f", "#41572d", "#25332d", "#171a19"];
     /*
-    #444c43     rock
-    #306d58     water
-    #171a19     bunker
-    #41572d     fossil
-    #25332d     volcanic rock
-    #506b0f     loot
+    #306d58     water           0
+    #444c43     rock            1
+    #506b0f     loot            2
+    #41572d     fossil          21
+    #25332d     volcanic rock   85
+    #171a19     bunker          5
     */
+function boreDown(a, b, c, d){
+    console.log("bore call! s0: " + syringe[0] + ", s1: " + syringe[1] + ", s2: " + syringe[2] + ", s3: " + syringe[3] + ".");
+    let bevel = 0;        //the next layer
+    if(deep <= 3){
+        for(i = 3; i >= 0; i --){
+            if(i <= deep)
+                syringe[i] = 1;
+            else
+                syringe[i] = 0;
+            console.log("syringe contents at " + i + ": " + syringe[i]);
+        }
+        layer0.style.backgroundColor = "#444c43";             //bottom layer (invisible, squashed)
+        layer1.style.backgroundColor = colors[syringe[0]];      //bottommost visible layer
+        layer2.style.backgroundColor = colors[syringe[1]];
+        layer3.style.backgroundColor = colors[syringe[2]];
+        layer4.style.backgroundColor = colors[syringe[3]];
+        layer5.style.backgroundColor = "#306d58";             //topmost layer
+    }
+    else{
+        for(i = 4; i >= 0; i --){
+            if(syringe[i] == 3)
+                syringe[i] = 21;
+            else if(syringe[i] == 4)
+                syringe[i] = 85;
+        }
+        bevel = nextLayer(a, b, c, d);
+        layer5.style.backgroundColor = colors[syringe[3]]       //topmost layer
+        n = syringe[3];
+        for(i = 4; i >= 1; i --){
+            syringe[i] = syringe[i + 1];
+            if(syringe[i] == 21)
+                syringe[i] = 3;
+            else if(syringe[i] == 85)
+                syringe[i] = 4;
+        }
+        syringe[0] = bevel;
+        layer0.style.backgroundColor = colors[bevel];           //bottom layer (invisible, squashed)
+        layer1.style.backgroundColor = colors[syringe[0]];      //bottommost visible layer
+        layer2.style.backgroundColor = colors[syringe[1]];
+        layer3.style.backgroundColor = colors[syringe[2]];
+        layer4.style.backgroundColor = colors[syringe[3]];
+    }
+    deep ++;
 }
 
 
@@ -423,6 +480,6 @@ document.addEventListener("keydown", (e) =>{
     }
     else if(e.key == "s"){
         console.log("down drill down");
-
+        boreDown(syringe[0], syringe[1], syringe[2], syringe[3]);
     }
 });
