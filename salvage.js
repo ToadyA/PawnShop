@@ -29,6 +29,8 @@ Volcanic rock guarantees high value for anything found next, so long as volcanic
 */
 let syringe = [0,0,0,0];
 let loot = ["", "", "", ""];
+let appValue = [0, 0, 0, 0];
+let trueValue = [0, 0, 0, 0];
 let bunker = false;
 function nextLayer(a, b, c, d){
     //pop the top layer, then roll for the next layer and push the result up from the bottom.
@@ -190,64 +192,95 @@ let treasures = ["Geode", "BearPlushVintage", "BuoyReciept", "CupcakeHolderCat",
     */
 function valuation(a, b, c, d){
     //determine the value of the finds based on the syringe contents.
-    const sumTotal = 0;
-    const g = 0;
+    let g = 0;
+    let gold = (a + b + c + d);
+    let value = 1;
+    let floor = 4;
     console.log("valuation call! s0: " + syringe[0] + ", s1: " + syringe[1] + ", s2: " + syringe[2] + ", s3: " + syringe[3] + ".");
-    if(((a + b + c + d) % 85) >= 21){
-        console.log("fossil get!");
-        if((a != 85 && a != 1 && a != 21) || (b != 85 && b != 1 && b != 21) || (c != 85 && c != 1 && c != 21) || (d != 85 && d != 1 && d != 21)){
-            if((a + b + c + d) >= 85){
-                console.log("extreme value fossil!!!");
-                //extreme value fossil formula; end of story.
-            }
-            else{
-                console.log("high value fossil! nice!");
-                //high value fossil formula; end of story.
+    for(i = 3; i >= 0; i --){
+        console.log("dowsing for fossils...");
+        value = 1;
+        gold = (a + b + c + d);
+        if((gold % 85) >= 21 || (syringe[i] == 3)){
+            console.log("fossil get!");
+            if((a != 85 && a != 1 && a != 21 && a != 3) || (b != 85 && b != 1 && b != 21 && b != 3) || (c != 85 && c != 1 && c != 21 && c != 3) || (d != 85 && d != 1 && d != 21 && d != 3)){
+                if(gold >= 85){
+                    console.log("extreme value fossil!!!");
+                    while(gold >= 85){
+                        value += .5;
+                        gold = gold - 85;
+                    }
+                    trueValue[i] = (value * Math.floor(Math.random() * 80));
+                }
             }
         }
     }
     console.log("any fossils found are of compromised quality...");
-    //all low value fossils, individually-calculated; move on.
-    if((a + b + c + d) >= 85){
+    if(gold >= 85){
         console.log("everything else is top-notch, though!");
-        //high levels of preservation
+        while(gold >= 85){
+            value += .5;
+            gold = gold - 85;
+        }
     }
-    else{
-        console.log("sadly the overall quality is low.");
-    }
+    if(a == 5 || b == 5 || c == 5 || d == 5)
+        value ++;
+    if(a == 0 || a == 1)
+        floor --;
+    if(b == 0 || b == 1)
+        floor --;
+    if(c == 0 || c == 1)
+        floor --;
+    if(d == 0 || d == 1)
+        floor --;
+    gold = (a + b + c + d);
     for(i = 3; i >= 0; i --){
-        if(syringe[i] == 85 || syringe[i] == 0)
-            g == 0;
-        else if(syringe[i] == 21){
-            g == (Math.random(7, 9));
-            if(g <= 7)
-                g == 7;
-            else if(g <= 8)
-                g == 8;
+        if(syringe[i] == 85 || syringe[i] == 0){
+            g = 0;
+            console.log("oops all rocks");
+        }
+        else if(syringe[i] == 21 || syringe[i] == 3){
+            g = (Math.random() * 10);
+            console.log("fossil roll: " + g + ", translates to: " + Math.trunc(g));
+            if(g <= 3)
+                g = 7;
+            else if(g <= 6)
+                g = 8;
             else
-                g == 9;
+                g = 9;
         }
         else{
-            g == (Math.random(1, 6));
-            if(g <= 1)
-                g == 1;
-            else if(g <= 2)
-                g == 2;
+            g = (Math.random() * 10);
+            console.log("curio roll: " + g + ", translates to: " + Math.trunc(g));
+            if(g <= 1.5)
+                g = 1;
             else if(g <= 3)
-                g == 3;
-            else if(g <= 4)
-                g == 4;
-            else if(g <= 5)
-                g == 5;
+                g = 2;
+            else if(g <= 4.5)
+                g = 3;
+            else if(g <= 6)
+                g = 4;
+            else if(g <= 8.5)
+                g = 5;
             else
-                g == 6;
+                g = 6;
         }
-        if((a + b + c + d) >= 85)
+        if(gold >= 85){
             loot[i] = treasures[g];
+            console.log("treasure assigned!");
+        }
         else
             loot[i] = curios[g];
+        console.log(loot[i]);
+        console.log(appValue[i]);
+        if(syringe[i] != 21)
+            trueValue[i] = (value * Math.floor(Math.random() * floor * 20));
+        else{
+            console.log("low-value fossil, won't sell for much.");
+            trueValue[i] = appValue[i];
+        }
+        console.log(trueValue[i]);
     }
-    return sumTotal;
 }
 
 let deep = 0;
