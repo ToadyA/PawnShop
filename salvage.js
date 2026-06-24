@@ -15,7 +15,7 @@ console.log("This file has been updated and changed!");
 Once no layers are water anymore, non-rock layers become much more likely. This is overridden if you hit a Bunker.
 A Bunker layer will flip parity and make loot extemely likely. Hitting another Bunker layer flips it back.
 Even within a Bunker, rock is possible to get for a layer. Loot valuability is higher for every non-rock layer included in your slice.
-If you hit two rock layers in a row and you are not in a Bunker, you have a high chance of hitting a Fossil.
+If you hit rock and you are not in a Bunker, you have a high chance of hitting a Fossil next.
 Fossils' value rises exponentially with more Fossils included in the slice, but their condition becomes awful if any non-rock layers are paired in too.
 If you manage getting four rock layers in one, you are guaranteed to get one bonus pity Relic in addition to your low-value rocks.
 Volcanic rock guarantees high value for anything found next, so long as volcanic rock is within the slice.
@@ -28,9 +28,11 @@ Volcanic rock guarantees high value for anything found next, so long as volcanic
 5: bunker           16%     25%     15%     20%     20%
 */
 let syringe = [0,0,0,0];
+let loot = ["", "", "", ""];
 let bunker = false;
 function nextLayer(a, b, c, d){
     //pop the top layer, then roll for the next layer and push the result up from the bottom.
+    console.log("nextLayer() called.");
     let e = 0;
     const f = Math.random(0, 1) * 100;
     if(bunker){                             //bunker is active
@@ -105,14 +107,147 @@ function nextLayer(a, b, c, d){
         else
             bunker = true;
     }
-
+    console.log("return value is: " + e);
     return e;
 }
 
-
-function valuation(){
+let layer0 = document.getElementById("Layer0");     //the next layer, not yet encountered
+let layer1 = document.getElementById("Layer1");
+let layer2 = document.getElementById("Layer2");
+let layer3 = document.getElementById("Layer3");
+let layer4 = document.getElementById("Layer4");
+let layer5 = document.getElementById("Layer5");     //a layer which has been passed, now purely accessory
+let colors = ["#306d58", "#444c43", "#506b0f", "#41572d", "#25332d", "#171a19"];
+    /*
+    #306d58     water           0
+    #444c43     rock            1
+    #506b0f     loot            2
+    #41572d     fossil          21
+    #25332d     volcanic rock   85
+    #171a19     bunker          5
+    */
+function boreDown(a, b, c, d){
+    console.log("bore call! s0: " + syringe[0] + ", s1: " + syringe[1] + ", s2: " + syringe[2] + ", s3: " + syringe[3] + ".");
+    let bevel = 0;        //the next layer
+    if(deep <= 3){
+        for(i = 3; i >= 0; i --){
+            if(i <= deep)
+                syringe[i] = 1;
+            else
+                syringe[i] = 0;
+            console.log("syringe contents at " + i + ": " + syringe[i]);
+        }
+        layer0.style.backgroundColor = "#444c43";             //bottom layer (invisible, squashed)
+        layer1.style.backgroundColor = colors[syringe[0]];      //bottommost visible layer
+        layer2.style.backgroundColor = colors[syringe[1]];
+        layer3.style.backgroundColor = colors[syringe[2]];
+        layer4.style.backgroundColor = colors[syringe[3]];
+        layer5.style.backgroundColor = "#306d58";             //topmost layer
+    }
+    else{
+        for(i = 4; i >= 0; i --){
+            if(syringe[i] == 3)
+                syringe[i] = 21;
+            else if(syringe[i] == 4)
+                syringe[i] = 85;
+        }
+        bevel = nextLayer(a, b, c, d);
+        layer5.style.backgroundColor = colors[syringe[3]]       //topmost layer
+        n = syringe[3];
+        for(i = 4; i >= 1; i --){
+            syringe[i] = syringe[i - 1];
+            if(syringe[i] == 21)
+                syringe[i] = 3;
+            else if(syringe[i] == 85)
+                syringe[i] = 4;
+            console.log("syringe assignment #" + i + ": " + syringe[i]);
+        }
+        syringe[0] = bevel;
+        layer0.style.backgroundColor = colors[bevel];           //bottom layer (invisible, squashed)
+        layer1.style.backgroundColor = colors[syringe[0]];      //bottommost visible layer
+        layer2.style.backgroundColor = colors[syringe[1]];
+        layer3.style.backgroundColor = colors[syringe[2]];
+        layer4.style.backgroundColor = colors[syringe[3]];
+    }
+    console.log("bore all done! s0: " + syringe[0] + ", s1: " + syringe[1] + ", s2: " + syringe[2] + ", s3: " + syringe[3] + ".");
+    deep ++;
+}
+let curios = ["Bark", "BearPlush", "Buoy", "CupcakeHolder", "FishMount", "Jeans", "LightsKevin", "Hand", "SoadiDiet", "RightCon"];
+let treasures = ["Geode", "BearPlushVintage", "BuoyReciept", "CupcakeHolderCat", "FishMountRoyal", "JeansVintage", "LightsPizza", "Swiper", "Soadi", "LeftCon"];
+    /*
+    ---         Curios          ---
+    0: Bark;            Geode
+    1: BearPlush;       BearPlushVintage
+    2: Buoy;            BuoyReciept
+    3: CupcakeHolder;   CupcakeHolderCat
+    4: FishMount;       FishMountRoyal
+    5: Jeans;           JeansVintage
+    6: LightsKevin;     LightsPizza
+    ---         Fossils         ---
+    7: Hand;            Swiper
+    8: SoadiDiet;       Soadi
+    9: RightCon;        LeftCon
+    */
+function valuation(a, b, c, d){
     //determine the value of the finds based on the syringe contents.
-    ;
+    const sumTotal = 0;
+    const g = 0;
+    console.log("valuation call! s0: " + syringe[0] + ", s1: " + syringe[1] + ", s2: " + syringe[2] + ", s3: " + syringe[3] + ".");
+    if(((a + b + c + d) % 85) >= 21){
+        console.log("fossil get!");
+        if((a != 85 && a != 1 && a != 21) || (b != 85 && b != 1 && b != 21) || (c != 85 && c != 1 && c != 21) || (d != 85 && d != 1 && d != 21)){
+            if((a + b + c + d) >= 85){
+                console.log("extreme value fossil!!!");
+                //extreme value fossil formula; end of story.
+            }
+            else{
+                console.log("high value fossil! nice!");
+                //high value fossil formula; end of story.
+            }
+        }
+    }
+    console.log("any fossils found are of compromised quality...");
+    //all low value fossils, individually-calculated; move on.
+    if((a + b + c + d) >= 85){
+        console.log("everything else is top-notch, though!");
+        //high levels of preservation
+    }
+    else{
+        console.log("sadly the overall quality is low.");
+    }
+    for(i = 3; i >= 0; i --){
+        if(syringe[i] == 85 || syringe[i] == 0)
+            g == 0;
+        else if(syringe[i] == 21){
+            g == (Math.random(7, 9));
+            if(g <= 7)
+                g == 7;
+            else if(g <= 8)
+                g == 8;
+            else
+                g == 9;
+        }
+        else{
+            g == (Math.random(1, 6));
+            if(g <= 1)
+                g == 1;
+            else if(g <= 2)
+                g == 2;
+            else if(g <= 3)
+                g == 3;
+            else if(g <= 4)
+                g == 4;
+            else if(g <= 5)
+                g == 5;
+            else
+                g == 6;
+        }
+        if((a + b + c + d) >= 85)
+            loot[i] = treasures[g];
+        else
+            loot[i] = curios[g];
+    }
+    return sumTotal;
 }
 
 let deep = 0;
@@ -288,13 +423,6 @@ function boatUp(){
     }
 }
 
-let layer0 = document.getElementById("Layer0");     //the next layer, not yet encountered
-let layer1 = document.getElementById("Layer1");
-let layer2 = document.getElementById("Layer2");
-let layer3 = document.getElementById("Layer3");
-let layer4 = document.getElementById("Layer4");
-let layer5 = document.getElementById("Layer5");     //a layer which has been passed, now purely accessory
-
 //check waveStage to encompass, check aniTimer to proc next wave
 function waveRaise(n){
     if(aniCooldown){
@@ -380,61 +508,6 @@ function waveRaise(n){
     }
 }
 
-let colors = ["#306d58", "#444c43", "#506b0f", "#41572d", "#25332d", "#171a19"];
-    /*
-    #306d58     water           0
-    #444c43     rock            1
-    #506b0f     loot            2
-    #41572d     fossil          21
-    #25332d     volcanic rock   85
-    #171a19     bunker          5
-    */
-function boreDown(a, b, c, d){
-    console.log("bore call! s0: " + syringe[0] + ", s1: " + syringe[1] + ", s2: " + syringe[2] + ", s3: " + syringe[3] + ".");
-    let bevel = 0;        //the next layer
-    if(deep <= 3){
-        for(i = 3; i >= 0; i --){
-            if(i <= deep)
-                syringe[i] = 1;
-            else
-                syringe[i] = 0;
-            console.log("syringe contents at " + i + ": " + syringe[i]);
-        }
-        layer0.style.backgroundColor = "#444c43";             //bottom layer (invisible, squashed)
-        layer1.style.backgroundColor = colors[syringe[0]];      //bottommost visible layer
-        layer2.style.backgroundColor = colors[syringe[1]];
-        layer3.style.backgroundColor = colors[syringe[2]];
-        layer4.style.backgroundColor = colors[syringe[3]];
-        layer5.style.backgroundColor = "#306d58";             //topmost layer
-    }
-    else{
-        for(i = 4; i >= 0; i --){
-            if(syringe[i] == 3)
-                syringe[i] = 21;
-            else if(syringe[i] == 4)
-                syringe[i] = 85;
-        }
-        bevel = nextLayer(a, b, c, d);
-        layer5.style.backgroundColor = colors[syringe[3]]       //topmost layer
-        n = syringe[3];
-        for(i = 4; i >= 1; i --){
-            syringe[i] = syringe[i + 1];
-            if(syringe[i] == 21)
-                syringe[i] = 3;
-            else if(syringe[i] == 85)
-                syringe[i] = 4;
-        }
-        syringe[0] = bevel;
-        layer0.style.backgroundColor = colors[bevel];           //bottom layer (invisible, squashed)
-        layer1.style.backgroundColor = colors[syringe[0]];      //bottommost visible layer
-        layer2.style.backgroundColor = colors[syringe[1]];
-        layer3.style.backgroundColor = colors[syringe[2]];
-        layer4.style.backgroundColor = colors[syringe[3]];
-    }
-    deep ++;
-}
-
-
 let aniCooldown = false;
 let waveStage = 0;
 document.addEventListener("keydown", (e) =>{
@@ -481,5 +554,9 @@ document.addEventListener("keydown", (e) =>{
     else if(e.key == "s"){
         console.log("down drill down");
         boreDown(syringe[0], syringe[1], syringe[2], syringe[3]);
+    }
+    else if(e.key == "w"){
+        console.log("cashing out!!");
+        valuation(syringe[0], syringe[1], syringe[2], syringe[3]);
     }
 });
