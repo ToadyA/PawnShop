@@ -282,8 +282,6 @@ function valuation(a, b, c, d){
                 g = 6;
         }
         console.log("gold: " + gold);
-        gold = (a + b + c + d);
-        console.log("gold after reiterating: " + gold);
         if(gold >= 85){
             loot[i] = treasures[g];
             console.log("treasure assigned!");
@@ -424,10 +422,12 @@ function hogTalky(){
             }, 500);
         }, 500);
 }
+
 ///Map
 
 let noMap = document.getElementById("CancelMap");
 let wallMap = document.getElementById("Map");
+let roadie = false;
 wallMap.addEventListener("click", () =>{
     document.getElementById("WhereGo").style.display = "block";
     noMap.style.display = "block";
@@ -438,6 +438,7 @@ wallMap.addEventListener("click", () =>{
     document.getElementById("AppraisalMap").style.display = "block";
     document.getElementById("MinesMap").style.display = "block";
     document.getElementById("BikeMap").style.display = "block";
+    roadie = true;
 });
 noMap.addEventListener("click", () =>{
     document.getElementById("WhereGo").style.display = "none";
@@ -449,22 +450,43 @@ noMap.addEventListener("click", () =>{
     document.getElementById("AppraisalMap").style.display = "none";
     document.getElementById("MinesMap").style.display = "none";
     document.getElementById("BikeMap").style.display = "none";
+    roadie = false;
 });
 
+let navig = 0;          //mines: 0; pawn: 4; appraisal: 6; locust: 10; tiger: 17; mushroom: 21;
+let x1 = 5;
+let y1 = 75;            //where you are (x1,y1) = (left, top)%
+let x2 = 5;
+let y2 = 75;            //where you're going (x2,y2) = (left, top)%
 /*  0: Tiger
     1: Locust
     2: Mushroom
     3: Appraisal    */
 document.getElementById("TigerMap").addEventListener("click", ()=>{
     localStorage.setItem('office', 0);
+    if(navig < 17){
+        ;
+    }
+    else if(navig > 17){
+        ;
+    }
     location.href="./Service.html";
 });
 document.getElementById("LocustMap").addEventListener("click", ()=>{
     localStorage.setItem('office', 1);
+    if(navig < 10){
+        ;
+    }
+    else if(navig > 10){
+        ;
+    }
     location.href="./Service.html";
 });
 document.getElementById("MushroomMap").addEventListener("click", ()=>{
     localStorage.setItem('office', 2);
+    if(navig < 21){
+        ;
+    }
     location.href="./Service.html";
 });
 document.getElementById("AppraisalMap").addEventListener("click", ()=>{

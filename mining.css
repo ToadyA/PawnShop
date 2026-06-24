@@ -181,11 +181,11 @@
 }
 #LocustMap{
     left: 10%;
-    top: 8%;
+    top: 6%;
 }
 #TigerMap{
     left: 80%;
-    top: 15%;
+    top: 12%;
 }
 #MushroomMap{
     left: 80%;
@@ -239,4 +239,53 @@
 #Slot4{
     right: 10%;
     bottom: 17%;
+}
+
+.Nodes{
+    position: absolute;
+    pointer-events: none;
+}
+#Node0{     /*MinesMap*/
+    left: 5%;
+    top: 75%;
+}
+#Node1{
+    left: 5%;
+    top: 68%;
+}
+#Node2{
+    left: 30%;
+    top: 68%;
+}
+#Node3{
+    left: 40%;
+    top: 68%;
+}
+#Node4{     /*HomeMap*/
+    left: 40%;
+    top: 80%;
+}
+#Node5{
+    left: 50%;
+    top: 68%;
+}
+#Node6{     /*AppraisalMap*/
+    left: 45%;
+    top: 45%;
+}
+#Node5{
+    left: 50%;
+    top: 68%;
+}
+#Node5{
+    left: 50%;
+    top: 68%;
+}
+#Node5{
+    left: 50%;
+    top: 68%;
+}
+#Node6{     /*LocustMap*/
+    left: 10%;
+    top: 6%;
 }
