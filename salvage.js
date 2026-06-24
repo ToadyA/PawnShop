@@ -10,6 +10,8 @@ else{
     captain.src = "images/mines/Warthog.png";
 }
 console.log("This file has been updated and changed!");
+let busy = false;       //pressing 's' or 'w' while busy will have no effect!
+
 
 /*  There are rules to determine what layers are possible next. We default to 3 layers of water plus 1 layer of rock.
 Once no layers are water anymore, non-rock layers become much more likely. This is overridden if you hit a Bunker.
@@ -129,6 +131,7 @@ let colors = ["#306d58", "#444c43", "#506b0f", "#41572d", "#25332d", "#171a19"];
     #171a19     bunker          5
     */
 function boreDown(a, b, c, d){
+    busy = true;
     console.log("bore call! s0: " + syringe[0] + ", s1: " + syringe[1] + ", s2: " + syringe[2] + ", s3: " + syringe[3] + ".");
     let bevel = 0;        //the next layer
     if(deep <= 3){
@@ -164,6 +167,10 @@ function boreDown(a, b, c, d){
                 syringe[i] = 4;
             console.log("syringe assignment #" + i + ": " + syringe[i]);
         }
+        if(bevel == 21)
+            bevel = 3;
+        else if(bevel == 85)
+            bevel = 4;
         syringe[0] = bevel;
         layer0.style.backgroundColor = colors[bevel];           //bottom layer (invisible, squashed)
         layer1.style.backgroundColor = colors[syringe[0]];      //bottommost visible layer
@@ -171,8 +178,16 @@ function boreDown(a, b, c, d){
         layer3.style.backgroundColor = colors[syringe[2]];
         layer4.style.backgroundColor = colors[syringe[3]];
     }
+    for(i = 4; i >= 0; i --){
+        if(syringe[i] == 3)
+            syringe[i] = 21;
+        else if(syringe[i] == 4)
+            syringe[i] = 85;
+    }
     console.log("bore all done! s0: " + syringe[0] + ", s1: " + syringe[1] + ", s2: " + syringe[2] + ", s3: " + syringe[3] + ".");
     deep ++;
+    console.log("________________________________________");
+    busy = false;
 }
 let curios = ["Bark", "BearPlush", "Buoy", "CupcakeHolder", "FishMount", "Jeans", "LightsKevin", "Hand", "SoadiDiet", "RightCon"];
 let treasures = ["Geode", "BearPlushVintage", "BuoyReciept", "CupcakeHolderCat", "FishMountRoyal", "JeansVintage", "LightsPizza", "Swiper", "Soadi", "LeftCon"];
@@ -192,6 +207,7 @@ let treasures = ["Geode", "BearPlushVintage", "BuoyReciept", "CupcakeHolderCat",
     */
 function valuation(a, b, c, d){
     //determine the value of the finds based on the syringe contents.
+    busy = true;
     let g = 0;
     let gold = (a + b + c + d);
     let value = 1;
@@ -215,7 +231,7 @@ function valuation(a, b, c, d){
             }
         }
     }
-    console.log("any fossils found are of compromised quality...");
+    console.log("proceeding to second check!");
     if(gold >= 85){
         console.log("everything else is top-notch, though!");
         while(gold >= 85){
@@ -265,22 +281,49 @@ function valuation(a, b, c, d){
             else
                 g = 6;
         }
+        console.log("gold: " + gold);
+        gold = (a + b + c + d);
+        console.log("gold after reiterating: " + gold);
         if(gold >= 85){
             loot[i] = treasures[g];
             console.log("treasure assigned!");
+            if(i == 3)
+                Slot4.src = "images/curios/valuable/" + loot[i] + ".png";
+            else if(i == 2)
+                Slot3.src = "images/curios/valuable/" + loot[i] + ".png";
+            else if(i == 1)
+                Slot2.src = "images/curios/valuable/" + loot[i] + ".png";
+            else
+                Slot1.src = "images/curios/valuable/" + loot[i] + ".png";
         }
-        else
+        else{
             loot[i] = curios[g];
+            console.log("curio assigned!");
+            if(i == 3)
+                Slot4.src = "images/curios/" + loot[i] + ".png";
+            else if(i == 2)
+                Slot3.src = "images/curios/" + loot[i] + ".png";
+            else if(i == 1)
+                Slot2.src = "images/curios/" + loot[i] + ".png";
+            else
+                Slot1.src = "images/curios/" + loot[i] + ".png";
+        }
+        appValue[i] = Math.floor(Math.random() * 20);
+        if(appValue[i] <= 0)
+            appValue[i] = 1;
         console.log(loot[i]);
-        console.log(appValue[i]);
+        console.log("value as would be seen without appraisal: $" + appValue[i]);
         if(syringe[i] != 21)
             trueValue[i] = (value * Math.floor(Math.random() * floor * 20));
         else{
             console.log("low-value fossil, won't sell for much.");
             trueValue[i] = appValue[i];
         }
-        console.log(trueValue[i]);
+        if(trueValue[i] == 0)
+            trueValue[i] = appValue[i];
+        console.log("post-appraisal value: $" + trueValue[i]);
     }
+    busy = false;
 }
 
 let deep = 0;
@@ -543,6 +586,7 @@ function waveRaise(n){
 
 let aniCooldown = false;
 let waveStage = 0;
+let earnings = false;       //whether we see the contents of our loot sack
 document.addEventListener("keydown", (e) =>{
     if(e.key == " "){
         if(!aniCooldown && waveStage <= 0){
@@ -551,6 +595,7 @@ document.addEventListener("keydown", (e) =>{
             bob = false;
             document.getElementById("Pier").style.display = "none";
             wallMap.style.display = "none";
+            document.getElementById("Sack").style.display = "none";
             bobbing = 0;
             aniTimer = 0;
             dunk = -50;
@@ -585,11 +630,37 @@ document.addEventListener("keydown", (e) =>{
         }
     }
     else if(e.key == "s"){
-        console.log("down drill down");
-        boreDown(syringe[0], syringe[1], syringe[2], syringe[3]);
+        if(!busy){
+            console.log("down drill down");
+            boreDown(syringe[0], syringe[1], syringe[2], syringe[3]);
+        }
+        else
+            console.log("come back later.");
     }
     else if(e.key == "w"){
-        console.log("cashing out!!");
-        valuation(syringe[0], syringe[1], syringe[2], syringe[3]);
+        if(!busy){
+            console.log("cashing out!!");
+            valuation(syringe[0], syringe[1], syringe[2], syringe[3]);
+        }
+        else
+            console.log("come back later.");
+    }
+    else if(e.key == "q"){
+        if(!earnings){
+            document.getElementById("Contents").style.display = "block";
+            document.getElementById("Slot1").style.display = "block";
+            document.getElementById("Slot2").style.display = "block";
+            document.getElementById("Slot3").style.display = "block";
+            document.getElementById("Slot4").style.display = "block";
+            earnings = true;
+        }
+        else{
+            document.getElementById("Contents").style.display = "none";
+            document.getElementById("Slot1").style.display = "none";
+            document.getElementById("Slot2").style.display = "none";
+            document.getElementById("Slot3").style.display = "none";
+            document.getElementById("Slot4").style.display = "none";
+            earnings = false;
+        }
     }
 });

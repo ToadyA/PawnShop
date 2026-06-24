@@ -199,3 +199,44 @@
     left: 5%;
     top: 75%;
 }
+
+#Sack{
+    position: absolute;
+    width: 10%;
+    z-index: 5;
+    bottom: 10%;
+    right: 25%;
+    cursor: pointer;
+}
+#Contents{
+    position: absolute;
+    width: 15%;
+    bottom: 2%;
+    right: 2%;
+    display: none;
+    z-index: 6;
+    cursor: pointer;
+}
+.Curio{
+    position: absolute;
+    width: 6%;
+    display: none;
+    z-index: 7;
+    pointer-events: none;
+}
+#Slot1{
+    right: 3%;
+    bottom: 4%;
+}
+#Slot2{
+    right: 3%;
+    bottom: 17%;
+}
+#Slot3{
+    right: 10%;
+    bottom: 4%;
+}
+#Slot4{
+    right: 10%;
+    bottom: 17%;
+}
