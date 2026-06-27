@@ -271,21 +271,65 @@
 }
 #Node6{     /*AppraisalMap*/
     left: 45%;
-    top: 45%;
+    top: 40%;
 }
-#Node5{
+#Node7{
     left: 50%;
-    top: 68%;
+    top: 10%;
 }
-#Node5{
-    left: 50%;
-    top: 68%;
+#Node8{
+    left: 32%;
+    top: 10%;
 }
-#Node5{
-    left: 50%;
-    top: 68%;
+#Node9{
+    left: 10%;
+    top: 10%;
 }
-#Node6{     /*LocustMap*/
+#Node10{     /*LocustMap*/
     left: 10%;
     top: 6%;
+}
+#Node11{
+    left: 50%;
+    top: 30%;
+}
+#Node12{
+    left: 60%;
+    top: 85%;
+}
+#Node13{
+    left: 64%;
+    top: 82%;
+}
+#Node14{
+    left: 56%;
+    top: 29%;
+}
+#Node15{
+    left: 62%;
+    top: 26%;
+}
+#Node16{
+    left: 60%;
+    top: 13%;
+}
+#Node17{        /*TigerMap*/
+    left: 80%;
+    top: 9%;
+}
+#Node18{
+    left: 65%;
+    top: 73%;
+}
+#Node19{
+    left: 78%;
+    top: 70%;
+}
+#Node20{
+    left: 83%;
+    top: 82%;
+}
+#Node21{        /*MushroomMap*/
+    left: 68%;
+    top: 84%;
 }

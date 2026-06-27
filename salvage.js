@@ -427,7 +427,7 @@ function hogTalky(){
 
 let noMap = document.getElementById("CancelMap");
 let wallMap = document.getElementById("Map");
-let roadie = false;
+let roadie = false;                                 //mid-[bike animation]
 wallMap.addEventListener("click", () =>{
     document.getElementById("WhereGo").style.display = "block";
     noMap.style.display = "block";
@@ -450,55 +450,141 @@ noMap.addEventListener("click", () =>{
     document.getElementById("AppraisalMap").style.display = "none";
     document.getElementById("MinesMap").style.display = "none";
     document.getElementById("BikeMap").style.display = "none";
+    x1 = x2;
+    y1 = y2;
+    navig = 0;
     roadie = false;
 });
+
+let legend = {
+    0: {x2: 5, y2: 75},
+    1: {x2: 5, y2: 68},
+    2: {x2: 30, y2: 68},
+    3: {x2: 40, y2: 68},
+    4: {x2: 40, y2: 80},
+    5: {x2: 50, y2: 68},
+    6: {x2: 45, y2: 40},
+    7: {x2: 50, y2: 10},
+    8: {x2: 32, y2: 10},
+    9: {x2: 10, y2: 10},
+    10: {x2: 10, y2: 6},
+    11: {x2: 50, y2: 30},
+    12: {x2: 60, y2: 85},
+    13: {x2: 64, y2: 82},
+    14: {x2: 56, y2: 29},
+    15: {x2: 62, y2: 26},
+    16: {x2: 60, y2: 13},
+    17: {x2: 80, y2: 9},
+    18: {x2: 65, y2: 73},
+    19: {x2: 78, y2: 70},
+    20: {x2: 83, y2: 82},
+    21: {x2: 68, y2: 84},
+}
+
 
 let navig = 0;          //mines: 0; pawn: 4; appraisal: 6; locust: 10; tiger: 17; mushroom: 21;
 let x1 = 5;
 let y1 = 75;            //where you are (x1,y1) = (left, top)%
 let x2 = 5;
 let y2 = 75;            //where you're going (x2,y2) = (left, top)%
+let inchworm = 0;       //8 beats before resetting to 0 upon reaching the next point.
+//n = id to be compared against navig; (o, p) = current point: [inchworm *(x1 - x2),inchworm *(y1 - y2)]; steps = how many points to pass through within this province.
+function downtown(n, o, p, steps){       //concerning navig >= 18, moving to 21 or to 15
+    ;
+}
+function highway(n, o, p, steps){        //concerning 11 <= navig <= 15, moving between 6 and 15
+    ;
+}
+function uptown(n, o, p, steps){         //concerning 8 <= navig <= 10, moving between 10 and 8
+    ;
+}
+function mall(n, o, p, steps){           //all other movement for left of map, 7 and below
+    setTimeout(() =>{
+        legend[1];
+    }, 50);
+}
 /*  0: Tiger
     1: Locust
     2: Mushroom
     3: Appraisal    */
 document.getElementById("TigerMap").addEventListener("click", ()=>{
-    localStorage.setItem('office', 0);
-    if(navig < 17){
-        ;
+    if(navig == 17){
+        localStorage.setItem('office', 0);
+        location.href="./Service.html";
     }
-    else if(navig > 17){
-        ;
+    else if(navig < 17){
+        roadie = true;
+        mall(x1, y1,);
     }
-    location.href="./Service.html";
+    else{
+        roadie = true;
+    }
+    
 });
 document.getElementById("LocustMap").addEventListener("click", ()=>{
-    localStorage.setItem('office', 1);
-    if(navig < 10){
+    if(navig == 10){
+        localStorage.setItem('office', 1);
+        location.href="./Service.html";
+    }
+    else if(navig <= 2){
         ;
     }
-    else if(navig > 10){
+    else if(navig < 10){
         ;
     }
-    location.href="./Service.html";
+    else{
+        ;
+    }
+    
 });
 document.getElementById("MushroomMap").addEventListener("click", ()=>{
-    localStorage.setItem('office', 2);
+    if(navig == 21){
+        localStorage.setItem('office', 2);
+        location.href="./Service.html";
+    }
     if(navig < 21){
         ;
     }
-    location.href="./Service.html";
+    
 });
 document.getElementById("AppraisalMap").addEventListener("click", ()=>{
-    localStorage.setItem('office', 3);
-    location.href="./Service.html";
+    if(navig == 6){
+        localStorage.setItem('office', 3);
+        location.href="./Service.html";
+    }
+    else if(navig < 6){
+        ;
+    }
+    else if(navig >= 11){
+        ;
+    }
+    else{
+        ;
+    }
 });
 
 document.getElementById("HomeMap").addEventListener("click", () =>{
-    location.href="./PawnShop.html";
+    if(navig == 4)
+        location.href="./PawnShop.html";
+    else if(navig <= 2){
+        ;
+    }
+    else if(navig <= 10 && navig >= 8){
+        ;
+    }
+    else{
+        ;
+    }
 });
 document.getElementById("MinesMap").addEventListener("click", () =>{
-    location.href="./DigSite.html";
+    if(navig == 0)
+        location.href="./DigSite.html";
+    else if(navig <= 10 && navig >= 8){
+        ;
+    }
+    else{
+        ;
+    }
 });
 
 //Animations for starting/ending the minigame
