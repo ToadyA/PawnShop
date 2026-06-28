@@ -437,7 +437,6 @@ wallMap.addEventListener("click", () =>{
     document.getElementById("AppraisalMap").style.display = "block";
     document.getElementById("MinesMap").style.display = "block";
     bike.style.display = "block";
-    roadie = true;
 });
 noMap.addEventListener("click", () =>{
     document.getElementById("WhereGo").style.display = "none";
@@ -461,23 +460,23 @@ let legend = {
     2: {x: 30, y: 68},
     3: {x: 40, y: 68},
     4: {x: 40, y: 80},
-    5: {x: 50, y: 68},
+    5: {x: 54, y: 68},
     6: {x: 45, y: 40},
-    7: {x: 50, y: 10},
+    7: {x: 40, y: 10},
     8: {x: 32, y: 10},
     9: {x: 10, y: 10},
-    10: {x: 10, y: 6},
-    11: {x: 50, y: 30},
-    12: {x: 60, y: 85},
-    13: {x: 64, y: 82},
-    14: {x: 56, y: 29},
-    15: {x: 62, y: 26},
-    16: {x: 60, y: 13},
-    17: {x: 80, y: 9},
-    18: {x: 65, y: 73},
-    19: {x: 78, y: 70},
-    20: {x: 88, y: 82},
-    21: {x: 80, y: 70},
+    10: {x: 10, y: 4},
+    11: {x: 53, y: 27},
+    12: {x: 66, y: 74},
+    13: {x: 75, y: 69},
+    14: {x: 60, y: 29},
+    15: {x: 65, y: 26},
+    16: {x: 59, y: 16},
+    17: {x: 80, y: 8},
+    18: {x: 80, y: 62},
+    19: {x: 85, y: 58},
+    20: {x: 90, y: 69},
+    21: {x: 80, y: 71},
 }
 
 let bike = document.getElementById("BikeMap");
@@ -681,6 +680,7 @@ function mall(n, o, p){
             navig = p;
             console.log("destination reached! Point: " + navig);
             console.log("_________________________");
+            roadie = false;
         }
     }, 50);
 }
@@ -693,7 +693,7 @@ document.getElementById("TigerMap").addEventListener("click", ()=>{
         localStorage.setItem('office', 0);
         location.href="./Service.html";
     }
-    else{
+    else if(!roadie){
         roadie = true;
         if(navig == 0)
             mall(navig, navig + 1, 17);
@@ -709,7 +709,7 @@ document.getElementById("LocustMap").addEventListener("click", ()=>{
         localStorage.setItem('office', 1);
         location.href="./Service.html";
     }
-    else{
+    else if(!roadie){
         roadie = true;
         if(navig == 0)
             mall(navig, navig + 1, 10);
@@ -725,7 +725,7 @@ document.getElementById("MushroomMap").addEventListener("click", ()=>{
         localStorage.setItem('office', 2);
         location.href="./Service.html";
     }
-    else{
+    else if(!roadie){
         roadie = true;
         if(navig == 0)
             mall(navig, navig + 1, 21);
@@ -741,7 +741,7 @@ document.getElementById("AppraisalMap").addEventListener("click", ()=>{
         localStorage.setItem('office', 3);
         location.href="./Service.html";
     }
-    else{
+    else if(!roadie){
         roadie = true;
         if(navig == 0)
             mall(navig, navig + 1, 6);
@@ -753,7 +753,7 @@ document.getElementById("AppraisalMap").addEventListener("click", ()=>{
 document.getElementById("HomeMap").addEventListener("click", () =>{
     if(navig == 4)
         location.href="./PawnShop.html";
-    else{
+    else if(!roadie){
         roadie = true;
         if(navig == 0)
             mall(navig, navig + 1, 4);
@@ -764,7 +764,7 @@ document.getElementById("HomeMap").addEventListener("click", () =>{
 document.getElementById("MinesMap").addEventListener("click", () =>{
     if(navig == 0)
         location.href="./DigSite.html";
-    else{
+    else if(!roadie){
         roadie = true;
         mall(navig, navig - 1, 0);
     }

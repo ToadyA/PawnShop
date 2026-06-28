@@ -194,6 +194,7 @@ function comeOnIn(c){
 
 let noMap = document.getElementById("CancelMap");
 let wallMap = document.getElementById("Map");
+let roadie = false;                                 //mid-[bike animation]
 wallMap.addEventListener("click", () =>{
     document.getElementById("WhereGo").style.display = "block";
     noMap.style.display = "block";
@@ -203,7 +204,7 @@ wallMap.addEventListener("click", () =>{
     document.getElementById("MushroomMap").style.display = "block";
     document.getElementById("AppraisalMap").style.display = "block";
     document.getElementById("MinesMap").style.display = "block";
-    document.getElementById("BikeMap").style.display = "block";
+    bike.style.display = "block";
 });
 noMap.addEventListener("click", () =>{
     document.getElementById("WhereGo").style.display = "none";
@@ -214,35 +215,326 @@ noMap.addEventListener("click", () =>{
     document.getElementById("MushroomMap").style.display = "none";
     document.getElementById("AppraisalMap").style.display = "none";
     document.getElementById("MinesMap").style.display = "none";
-    document.getElementById("BikeMap").style.display = "none";
+    bike.style.display = "none";
+    x1 = x2;
+    y1 = y2;
+    navig = 4;
+    roadie = false;
 });
 
+let legend = {
+    0: {x: 5, y: 75},
+    1: {x: 5, y: 68},
+    2: {x: 30, y: 68},
+    3: {x: 40, y: 68},
+    4: {x: 40, y: 80},
+    5: {x: 54, y: 68},
+    6: {x: 45, y: 40},
+    7: {x: 40, y: 10},
+    8: {x: 32, y: 10},
+    9: {x: 10, y: 10},
+    10: {x: 10, y: 4},
+    11: {x: 53, y: 27},
+    12: {x: 66, y: 74},
+    13: {x: 75, y: 69},
+    14: {x: 60, y: 29},
+    15: {x: 65, y: 26},
+    16: {x: 59, y: 16},
+    17: {x: 80, y: 8},
+    18: {x: 80, y: 62},
+    19: {x: 85, y: 58},
+    20: {x: 90, y: 69},
+    21: {x: 80, y: 71},
+}
+
+let bike = document.getElementById("BikeMap");
+let navig = 4;          //mines: 0; pawn: 4; appraisal: 6; locust: 10; tiger: 17; mushroom: 21;
+bike.style.left = legend[4].x + "%";
+bike.style.top = legend[4].y + "%";
+let x1 = 5;
+let y1 = 75;            //where you are (x1,y1) = (left, top)%
+let x2 = 5;
+let y2 = 75;            //where you're going (x2,y2) = (left, top)%
+let inchworm = 0;       //8 beats before resetting to 0 upon reaching the next point.
+/*  n = id to be compared against navig (next leg);
+    o = current point: [inchworm *(x1 - x2),inchworm *(y1 - y2)];
+    p = ultimate destination    */
+function mall(n, o, p){
+    console.log("mall call. inchworm: "  + inchworm);
+    x1 = legend[n].x;
+    y1 = legend[n].y;
+    x2 = legend[o].x;
+    y2 = legend[o].y;
+    console.log("Starting at: " + n + " to: " + o);
+    setTimeout(() =>{
+        bike.style.left = ( (((8 - inchworm) * x1) + ((inchworm) * x2)) /8) + "%";
+        bike.style.top = ( (((8 - inchworm) * y1) + ((inchworm) * y2)) /8) + "%";
+        if(inchworm < 8)
+            inchworm ++;
+        else{
+            inchworm = 0;
+            if(p == 0){
+                if(o == 5)
+                    o = 3;
+                else if(o == 11)
+                    o = 6;
+                else if(o == 18)
+                    o = 15;
+                else
+                    o --;
+
+                if(n == 5)
+                    n = 3;
+                else if(n == 11)
+                    n = 6;
+                else if(n == 18)
+                    n = 15;
+                else
+                    n --;
+            }
+            else if(p == 4){
+                if(o == 5)
+                    o = 3;
+                else if(o <= 3)
+                    o ++;
+                else if(o == 8)
+                    o = 2;
+                else if(o == 11)
+                    o = 6;
+                else if(o == 18)
+                    o = 15;
+                else
+                    o --;
+
+                if(n == 5)
+                    n = 3;
+                else if(n <= 3)
+                    n ++;
+                else if(n == 8)
+                    n = 2;
+                else if(n == 11)
+                    n = 6;
+                else if(n == 18)
+                    n = 15;
+                else
+                    n --;
+            }
+            else if(p == 6){
+                if(o == 11)
+                    o = 6;
+                else if(o == 18)
+                    o = 15;
+                else if(o == 3)
+                    o = 5;
+                else if(o == 5)
+                    o ++;
+                else if(o <= 2)
+                    o ++;
+                else
+                    o --;
+
+                if(n == 11)
+                    n = 6;
+                else if(n == 18)
+                    n = 15;
+                else if(n == 3)
+                    n = 5;
+                else if(n == 5)
+                    n ++;
+                else if(n <= 2)
+                    n ++;
+                else
+                    n --;
+            }
+            else if(p == 10){
+                if(o == 5)
+                    o = 3;
+                else if(o == 11)
+                    o = 6;
+                else if(o == 18)
+                    o = 15;
+                else if(o >= 5 && o < 10)
+                    o ++;
+                else if(o == 2)
+                    o = 8;
+                else if(o < 2)
+                    o ++;
+                else
+                    o --;
+
+                if(n == 5)
+                    n = 3;
+                else if(n == 11)
+                    n = 6;
+                else if(n == 18)
+                    n = 15;
+                else if(n >= 5 && n < 10)
+                    n ++;
+                else if(n == 2)
+                    n = 8;
+                else if(n < 2)
+                    n ++;
+                else
+                    n --;
+            }
+            else if(p == 17){
+                if(o == 3)
+                    o = 5;
+                else if(o == 6)
+                    o = 11;
+                else if(o < 6)
+                    o ++;
+                else if(o <= 10)
+                    o --;
+                else if(o == 18)
+                    o = 15;
+                else if(o > 18)
+                    o --;
+                else
+                    o ++;
+
+                if(n == 3)
+                    n = 5;
+                else if(n == 6)
+                    n = 11;
+                else if(n < 6)
+                    n ++;
+                else if(n <= 10)
+                    n --;
+                else if(n == 18)
+                    n = 15;
+                else if(n > 18)
+                    n --;
+                else
+                    n ++;
+            }
+            else if(p >= 21){
+                if(o == 3)
+                    o = 5;
+                else if(o == 6)
+                    o = 11;
+                else if(o < 6)
+                    o ++;
+                else if(o <= 10)
+                    o --;
+                else if(o == 15)
+                    o = 18;
+                else if(o <= 17 && o > 15)
+                    o --;
+                else
+                    o ++;
+
+                if(n == 3)
+                    n = 5;
+                else if(n == 6)
+                    n = 11;
+                else if(n < 6)
+                    n ++;
+                else if(n <= 10)
+                    n --;
+                else if(n == 15)
+                    n = 18;
+                else if(n <= 17 && n > 15)
+                    n --;
+                else
+                    n ++;
+            }
+        }
+        console.log("Checkpoint from: " + n + " to: " + o);
+        if(n != p)
+            mall(n, o, p);
+        else{
+            navig = p;
+            console.log("destination reached! Point: " + navig);
+            console.log("_________________________");
+            roadie = false;
+        }
+    }, 50);
+}
 /*  0: Tiger
     1: Locust
     2: Mushroom
     3: Appraisal    */
 document.getElementById("TigerMap").addEventListener("click", ()=>{
-    localStorage.setItem('office', 0);
-    location.href="./Service.html";
+    if(navig == 17){
+        localStorage.setItem('office', 0);
+        location.href="./Service.html";
+    }
+    else if(!roadie){
+        roadie = true;
+        if(navig == 0)
+            mall(navig, navig + 1, 17);
+        else if(navig == 6)
+            mall(navig, 11, 17);
+        else
+            mall(navig, navig - 1, 17);
+    }
+    
 });
 document.getElementById("LocustMap").addEventListener("click", ()=>{
-    localStorage.setItem('office', 1);
-    location.href="./Service.html";
+    if(navig == 10){
+        localStorage.setItem('office', 1);
+        location.href="./Service.html";
+    }
+    else if(!roadie){
+        roadie = true;
+        if(navig == 0)
+            mall(navig, navig + 1, 10);
+        else if(navig == 6)
+            mall(navig, navig + 1, 10);
+        else
+            mall(navig, navig - 1, 10);
+    }
+    
 });
 document.getElementById("MushroomMap").addEventListener("click", ()=>{
-    localStorage.setItem('office', 2);
-    location.href="./Service.html";
+    if(navig == 21){
+        localStorage.setItem('office', 2);
+        location.href="./Service.html";
+    }
+    else if(!roadie){
+        roadie = true;
+        if(navig == 0)
+            mall(navig, navig + 1, 21);
+        else if(navig == 6)
+            mall(navig, 11, 21);
+        else
+            mall(navig, navig - 1, 21);
+    }
+    
 });
 document.getElementById("AppraisalMap").addEventListener("click", ()=>{
-    localStorage.setItem('office', 3);
-    location.href="./Service.html";
+    if(navig == 6){
+        localStorage.setItem('office', 3);
+        location.href="./Service.html";
+    }
+    else if(!roadie){
+        roadie = true;
+        if(navig == 0)
+            mall(navig, navig + 1, 6);
+        else
+            mall(navig, navig - 1, 6);
+    }
 });
 
 document.getElementById("HomeMap").addEventListener("click", () =>{
-    location.href="./PawnShop.html";
+    if(navig == 4)
+        location.href="./PawnShop.html";
+    else if(!roadie){
+        roadie = true;
+        if(navig == 0)
+            mall(navig, navig + 1, 4);
+        else
+            mall(navig, navig - 1, 4);
+    }
 });
 document.getElementById("MinesMap").addEventListener("click", () =>{
-    location.href="./DigSite.html";
+    if(navig == 0)
+        location.href="./DigSite.html";
+    else if(!roadie){
+        roadie = true;
+        mall(navig, navig - 1, 0);
+    }
 });
 
 //fetch the data on what today is: the field weather, the time of day, the number day since beginning, and whether it is a holiday.
