@@ -457,28 +457,28 @@ noMap.addEventListener("click", () =>{
 });
 
 let legend = {
-    0: {x2: 5, y2: 75},
-    1: {x2: 5, y2: 68},
-    2: {x2: 30, y2: 68},
-    3: {x2: 40, y2: 68},
-    4: {x2: 40, y2: 80},
-    5: {x2: 50, y2: 68},
-    6: {x2: 45, y2: 40},
-    7: {x2: 50, y2: 10},
-    8: {x2: 32, y2: 10},
-    9: {x2: 10, y2: 10},
-    10: {x2: 10, y2: 6},
-    11: {x2: 50, y2: 30},
-    12: {x2: 60, y2: 85},
-    13: {x2: 64, y2: 82},
-    14: {x2: 56, y2: 29},
-    15: {x2: 62, y2: 26},
-    16: {x2: 60, y2: 13},
-    17: {x2: 80, y2: 9},
-    18: {x2: 65, y2: 73},
-    19: {x2: 78, y2: 70},
-    20: {x2: 83, y2: 82},
-    21: {x2: 68, y2: 84},
+    0: {x: 5, y: 75},
+    1: {x: 5, y: 68},
+    2: {x: 30, y: 68},
+    3: {x: 40, y: 68},
+    4: {x: 40, y: 80},
+    5: {x: 50, y: 68},
+    6: {x: 45, y: 40},
+    7: {x: 50, y: 10},
+    8: {x: 32, y: 10},
+    9: {x: 10, y: 10},
+    10: {x: 10, y: 6},
+    11: {x: 50, y: 30},
+    12: {x: 60, y: 85},
+    13: {x: 64, y: 82},
+    14: {x: 56, y: 29},
+    15: {x: 62, y: 26},
+    16: {x: 60, y: 13},
+    17: {x: 80, y: 9},
+    18: {x: 65, y: 73},
+    19: {x: 78, y: 70},
+    20: {x: 83, y: 82},
+    21: {x: 68, y: 84},
 }
 
 
@@ -488,19 +488,48 @@ let y1 = 75;            //where you are (x1,y1) = (left, top)%
 let x2 = 5;
 let y2 = 75;            //where you're going (x2,y2) = (left, top)%
 let inchworm = 0;       //8 beats before resetting to 0 upon reaching the next point.
-//n = id to be compared against navig; (o, p) = current point: [inchworm *(x1 - x2),inchworm *(y1 - y2)]; steps = how many points to pass through within this province.
-function downtown(n, o, p, steps){       //concerning navig >= 18, moving to 21 or to 15
-    ;
-}
-function highway(n, o, p, steps){        //concerning 11 <= navig <= 15, moving between 6 and 15
-    ;
-}
-function uptown(n, o, p, steps){         //concerning 8 <= navig <= 10, moving between 10 and 8
-    ;
-}
-function mall(n, o, p, steps){           //all other movement for left of map, 7 and below
+/*  n = id to be compared against navig (next leg);
+    o = current point: [inchworm *(x1 - x2),inchworm *(y1 - y2)];
+    p = ultimate destination    */
+function mall(n, o, p){
+    x1 = legend[o].x;
+    y1 = legend[o].y;
+    x2 = legend[p].x;
+    y2 = legend[p].y;
     setTimeout(() =>{
-        legend[1];
+        if(inchworm < 8)
+            inchworm ++;
+        else{
+            inchworm = 0;
+            if(p == 0){
+                if(o == 5)
+                    o = 3;
+                else if(o == 11)
+                    o = 6;
+                else
+                    o --;
+                if(n == 5)
+                    n = 3;
+                else if(n == 11)
+                    n = 6;
+                else
+                    n --;
+            }
+            else if(p == 4){
+                ;
+            }
+            else if(p == 10){
+                ;
+            }
+            else if(p == 17){
+                ;
+            }
+            else{
+                ;
+            }
+        }
+        if(n != p)
+            mall(n, o, p);
     }, 50);
 }
 /*  0: Tiger
@@ -512,12 +541,9 @@ document.getElementById("TigerMap").addEventListener("click", ()=>{
         localStorage.setItem('office', 0);
         location.href="./Service.html";
     }
-    else if(navig < 17){
-        roadie = true;
-        mall(x1, y1,);
-    }
     else{
         roadie = true;
+        mall(navig, navig, 17);
     }
     
 });
@@ -526,14 +552,9 @@ document.getElementById("LocustMap").addEventListener("click", ()=>{
         localStorage.setItem('office', 1);
         location.href="./Service.html";
     }
-    else if(navig <= 2){
-        ;
-    }
-    else if(navig < 10){
-        ;
-    }
     else{
-        ;
+        roadie = true;
+        mall(navig, navig, 10);
     }
     
 });
@@ -542,8 +563,9 @@ document.getElementById("MushroomMap").addEventListener("click", ()=>{
         localStorage.setItem('office', 2);
         location.href="./Service.html";
     }
-    if(navig < 21){
-        ;
+    else{
+        roadie = true;
+        mall(navig, navig, 21);
     }
     
 });
@@ -552,38 +574,26 @@ document.getElementById("AppraisalMap").addEventListener("click", ()=>{
         localStorage.setItem('office', 3);
         location.href="./Service.html";
     }
-    else if(navig < 6){
-        ;
-    }
-    else if(navig >= 11){
-        ;
-    }
     else{
-        ;
+        roadie = true;
+        mall(navig, navig, 6);
     }
 });
 
 document.getElementById("HomeMap").addEventListener("click", () =>{
     if(navig == 4)
         location.href="./PawnShop.html";
-    else if(navig <= 2){
-        ;
-    }
-    else if(navig <= 10 && navig >= 8){
-        ;
-    }
     else{
-        ;
+        roadie = true;
+        mall(navig, navig, 4);
     }
 });
 document.getElementById("MinesMap").addEventListener("click", () =>{
     if(navig == 0)
         location.href="./DigSite.html";
-    else if(navig <= 10 && navig >= 8){
-        ;
-    }
     else{
-        ;
+        roadie = true;
+        mall(navig, navig, 0);
     }
 });
 
