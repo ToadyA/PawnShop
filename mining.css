@@ -217,26 +217,26 @@
     z-index: 6;
     cursor: pointer;
 }
-.Curio{
+.CurioJr{
     position: absolute;
     width: 6%;
     display: none;
     z-index: 7;
     pointer-events: none;
 }
-#Slot1{
+#Pouch1{
     right: 3%;
     bottom: 4%;
 }
-#Slot2{
+#Pouch2{
     right: 3%;
     bottom: 17%;
 }
-#Slot3{
+#Pouch3{
     right: 10%;
     bottom: 4%;
 }
-#Slot4{
+#Pouch4{
     right: 10%;
     bottom: 17%;
 }

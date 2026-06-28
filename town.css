@@ -28,6 +28,7 @@ body{
 }
 
 /*A Map that covers the screen as you pick where to go. The Bike will move to and fro as you decide, ala Pikmin.*/
+
 #Map{
     position: absolute;
     width: 15%;
@@ -94,6 +95,7 @@ body{
 }
 
 /*Customers for your Pawn Shop and your Bank. Come in audience right, come up to talk, then leave out the left.*/
+
 #Customer1{
     position: absolute;
     width: 20%;
@@ -135,26 +137,68 @@ body{
 }
 #Slot5{
     left: 16%;
-    top: 32%;
+    top: 22%;
 }
 #Slot6{
     left: 63%;
-    top: 32%;
+    top: 22%;
+}
+#Slot7{
+    left: 16%;
+    top: 40%;
+}
+#Slot8{
+    left: 63%;
+    top: 40%;
 }
 
-#Bell{
-    position: absolute;
-    bottom: 37%;
-    right: 33%;
-    width: 5%;
-    z-index: 5;
-    cursor: pointer;
-}
 #Sack{
     position: absolute;
     left: 11%;
     bottom: 7%;
     width: 14%;
+    z-index: 5;
+    cursor: pointer;
+}
+#Contents{
+    position: absolute;
+    width: 15%;
+    bottom: 2%;
+    right: 2%;
+    display: none;
+    z-index: 6;
+    cursor: pointer;
+}
+.CurioJr{
+    position: absolute;
+    width: 6%;
+    display: none;
+    z-index: 7;
+    pointer-events: none;
+}
+#Pouch1{
+    right: 3%;
+    bottom: 4%;
+}
+#Pouch2{
+    right: 3%;
+    bottom: 17%;
+}
+#Pouch3{
+    right: 10%;
+    bottom: 4%;
+}
+#Pouch4{
+    right: 10%;
+    bottom: 17%;
+}
+
+/* Other Interactibles */
+#Bell{
+    position: absolute;
+    bottom: 37%;
+    right: 33%;
+    width: 5%;
     z-index: 5;
     cursor: pointer;
 }

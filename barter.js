@@ -380,9 +380,11 @@ function mall(n, o, p){
             else if(p == 17){
                 if(o == 3)
                     o = 5;
+                else if(o == 5)
+                    o ++;
                 else if(o == 6)
                     o = 11;
-                else if(o < 6)
+                else if(o <= 2)
                     o ++;
                 else if(o <= 10)
                     o --;
@@ -395,9 +397,11 @@ function mall(n, o, p){
 
                 if(n == 3)
                     n = 5;
+                else if(n == 5)
+                    n ++;
                 else if(n == 6)
                     n = 11;
-                else if(n < 6)
+                else if(n <= 2)
                     n ++;
                 else if(n <= 10)
                     n --;
@@ -411,9 +415,11 @@ function mall(n, o, p){
             else if(p >= 21){
                 if(o == 3)
                     o = 5;
+                else if(o == 5)
+                    o = 6;
                 else if(o == 6)
                     o = 11;
-                else if(o < 6)
+                else if(o <= 2)
                     o ++;
                 else if(o <= 10)
                     o --;
@@ -426,9 +432,11 @@ function mall(n, o, p){
 
                 if(n == 3)
                     n = 5;
+                else if(n == 5)
+                    n = 6;
                 else if(n == 6)
                     n = 11;
-                else if(n < 6)
+                else if(n <= 2)
                     n ++;
                 else if(n <= 10)
                     n --;
@@ -537,6 +545,27 @@ document.getElementById("MinesMap").addEventListener("click", () =>{
     }
 });
 
+let earnings = false;
+document.addEventListener("keydown", (e) =>{
+    if(e.key == "q"){
+        if(!earnings){
+            document.getElementById("Contents").style.display = "block";
+            document.getElementById("Pouch1").style.display = "block";
+            document.getElementById("Pouch2").style.display = "block";
+            document.getElementById("Pouch3").style.display = "block";
+            document.getElementById("Pouch4").style.display = "block";
+            earnings = true;
+        }
+        else{
+            document.getElementById("Contents").style.display = "none";
+            document.getElementById("Pouch1").style.display = "none";
+            document.getElementById("Pouch2").style.display = "none";
+            document.getElementById("Pouch3").style.display = "none";
+            document.getElementById("Pouch4").style.display = "none";
+            earnings = false;
+        }
+    }
+});
 //fetch the data on what today is: the field weather, the time of day, the number day since beginning, and whether it is a holiday.
 function getLoan(){
     const loan = localStorage.getItem('loan');
