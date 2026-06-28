@@ -12,7 +12,6 @@ else{
 console.log("This file has been updated and changed!");
 let busy = false;       //pressing 's' or 'w' while busy will have no effect!
 
-
 /*  There are rules to determine what layers are possible next. We default to 3 layers of water plus 1 layer of rock.
 Once no layers are water anymore, non-rock layers become much more likely. This is overridden if you hit a Bunker.
 A Bunker layer will flip parity and make loot extemely likely. Hitting another Bunker layer flips it back.
@@ -352,7 +351,7 @@ function bobber(){
         document.getElementById("Operhand").style.top = (24 + Math.sin(bobbing)) + "%";
         document.getElementById("Crank").style.top = (cranky + Math.sin(bobbing)) + "%";
         bobbing += (Math.PI / 4);
-        console.log("bobbing: " + bobbing + ", and sin: " + Math.sin(bobbing));
+        //console.log("bobbing: " + bobbing + ", and sin: " + Math.sin(bobbing));
         setTimeout(() =>{
             bobber();
         }, 250);
@@ -437,7 +436,7 @@ wallMap.addEventListener("click", () =>{
     document.getElementById("MushroomMap").style.display = "block";
     document.getElementById("AppraisalMap").style.display = "block";
     document.getElementById("MinesMap").style.display = "block";
-    document.getElementById("BikeMap").style.display = "block";
+    bike.style.display = "block";
     roadie = true;
 });
 noMap.addEventListener("click", () =>{
@@ -449,7 +448,7 @@ noMap.addEventListener("click", () =>{
     document.getElementById("MushroomMap").style.display = "none";
     document.getElementById("AppraisalMap").style.display = "none";
     document.getElementById("MinesMap").style.display = "none";
-    document.getElementById("BikeMap").style.display = "none";
+    bike.style.display = "none";
     x1 = x2;
     y1 = y2;
     navig = 0;
@@ -477,10 +476,13 @@ let legend = {
     17: {x: 80, y: 9},
     18: {x: 65, y: 73},
     19: {x: 78, y: 70},
-    20: {x: 83, y: 82},
-    21: {x: 68, y: 84},
+    20: {x: 88, y: 82},
+    21: {x: 80, y: 70},
 }
 
+let bike = document.getElementById("BikeMap");
+bike.style.left = legend[0].x + "%";
+bike.style.top = legend[0].y + "%";
 
 let navig = 0;          //mines: 0; pawn: 4; appraisal: 6; locust: 10; tiger: 17; mushroom: 21;
 let x1 = 5;
@@ -492,11 +494,15 @@ let inchworm = 0;       //8 beats before resetting to 0 upon reaching the next p
     o = current point: [inchworm *(x1 - x2),inchworm *(y1 - y2)];
     p = ultimate destination    */
 function mall(n, o, p){
-    x1 = legend[o].x;
-    y1 = legend[o].y;
-    x2 = legend[p].x;
-    y2 = legend[p].y;
+    console.log("mall call. inchworm: "  + inchworm);
+    x1 = legend[n].x;
+    y1 = legend[n].y;
+    x2 = legend[o].x;
+    y2 = legend[o].y;
+    console.log("Starting at: " + n + " to: " + o);
     setTimeout(() =>{
+        bike.style.left = ( (((8 - inchworm) * x1) + ((inchworm) * x2)) /8) + "%";
+        bike.style.top = ( (((8 - inchworm) * y1) + ((inchworm) * y2)) /8) + "%";
         if(inchworm < 8)
             inchworm ++;
         else{
@@ -547,30 +553,61 @@ function mall(n, o, p){
                 else
                     n --;
             }
-            else if(p == 10){
-                if(o == 3)
-                    o = 2;
-                else if(o == 2)
-                    o = 8;
-                else if(o <= 9)
+            else if(p == 6){
+                if(o == 11)
+                    o = 6;
+                else if(o == 18)
+                    o = 15;
+                else if(o == 3)
+                    o = 5;
+                else if(o == 5)
                     o ++;
+                else if(o <= 2)
+                    o ++;
+                else
+                    o --;
+
+                if(n == 11)
+                    n = 6;
+                else if(n == 18)
+                    n = 15;
+                else if(n == 3)
+                    n = 5;
+                else if(n == 5)
+                    n ++;
+                else if(n <= 2)
+                    n ++;
+                else
+                    n --;
+            }
+            else if(p == 10){
+                if(o == 5)
+                    o = 3;
                 else if(o == 11)
                     o = 6;
                 else if(o == 18)
                     o = 15;
+                else if(o >= 5 && o < 10)
+                    o ++;
+                else if(o == 2)
+                    o = 8;
+                else if(o < 2)
+                    o ++;
                 else
                     o --;
 
-                if(n == 3)
-                    n = 2;
-                else if(n == 2)
-                    n = 8;
-                else if(n <= 9)
-                    n ++;
+                if(n == 5)
+                    n = 3;
                 else if(n == 11)
                     n = 6;
                 else if(n == 18)
                     n = 15;
+                else if(n >= 5 && n < 10)
+                    n ++;
+                else if(n == 2)
+                    n = 8;
+                else if(n < 2)
+                    n ++;
                 else
                     n --;
             }
@@ -605,7 +642,7 @@ function mall(n, o, p){
                 else
                     n ++;
             }
-            else{
+            else if(p >= 21){
                 if(o == 3)
                     o = 5;
                 else if(o == 6)
@@ -616,7 +653,7 @@ function mall(n, o, p){
                     o --;
                 else if(o == 15)
                     o = 18;
-                else if(o <= 17)
+                else if(o <= 17 && o > 15)
                     o --;
                 else
                     o ++;
@@ -631,14 +668,20 @@ function mall(n, o, p){
                     n --;
                 else if(n == 15)
                     n = 18;
-                else if(n <= 17)
+                else if(n <= 17 && n > 15)
                     n --;
                 else
                     n ++;
             }
         }
+        console.log("Checkpoint from: " + n + " to: " + o);
         if(n != p)
             mall(n, o, p);
+        else{
+            navig = p;
+            console.log("destination reached! Point: " + navig);
+            console.log("_________________________");
+        }
     }, 50);
 }
 /*  0: Tiger
@@ -652,7 +695,12 @@ document.getElementById("TigerMap").addEventListener("click", ()=>{
     }
     else{
         roadie = true;
-        mall(navig, navig, 17);
+        if(navig == 0)
+            mall(navig, navig + 1, 17);
+        else if(navig == 6)
+            mall(navig, 11, 17);
+        else
+            mall(navig, navig - 1, 17);
     }
     
 });
@@ -663,7 +711,12 @@ document.getElementById("LocustMap").addEventListener("click", ()=>{
     }
     else{
         roadie = true;
-        mall(navig, navig, 10);
+        if(navig == 0)
+            mall(navig, navig + 1, 10);
+        else if(navig == 6)
+            mall(navig, navig + 1, 10);
+        else
+            mall(navig, navig - 1, 10);
     }
     
 });
@@ -674,7 +727,12 @@ document.getElementById("MushroomMap").addEventListener("click", ()=>{
     }
     else{
         roadie = true;
-        mall(navig, navig, 21);
+        if(navig == 0)
+            mall(navig, navig + 1, 21);
+        else if(navig == 6)
+            mall(navig, 11, 21);
+        else
+            mall(navig, navig - 1, 21);
     }
     
 });
@@ -685,7 +743,10 @@ document.getElementById("AppraisalMap").addEventListener("click", ()=>{
     }
     else{
         roadie = true;
-        mall(navig, navig, 6);
+        if(navig == 0)
+            mall(navig, navig + 1, 6);
+        else
+            mall(navig, navig - 1, 6);
     }
 });
 
@@ -694,7 +755,10 @@ document.getElementById("HomeMap").addEventListener("click", () =>{
         location.href="./PawnShop.html";
     else{
         roadie = true;
-        mall(navig, navig, 4);
+        if(navig == 0)
+            mall(navig, navig + 1, 4);
+        else
+            mall(navig, navig - 1, 4);
     }
 });
 document.getElementById("MinesMap").addEventListener("click", () =>{
@@ -702,7 +766,7 @@ document.getElementById("MinesMap").addEventListener("click", () =>{
         location.href="./DigSite.html";
     else{
         roadie = true;
-        mall(navig, navig, 0);
+        mall(navig, navig - 1, 0);
     }
 });
 
