@@ -1,12 +1,13 @@
 
 let fg = document.getElementById("Office");
 let clerk = document.getElementById("Clerk");
+let front = document.getElementById("Front");
 let office = localStorage.getItem('office');    //0: Tiger, 1: Locust, 2: Mushroom, 3: Appraisal
-let day = localStorage.getItem('day');          //true: daytime worker, false: night worker; this alternates on visiting the appraisal office particularly.
-console.log(office);
+let day = localStorage.getItem('day');          //true: daytime worker, false: night worker; this alternates on visiting any location, including revisits.
+console.log("Office: " + office + "; Daytime: " + day);
 let plotPoint = 4;
 if(office == 0){
-    document.body.style.backgroundColor = "#35453b";
+    document.body.style.backgroundColor = "#416558";
     fg.src = "images/bankers/TigerOffice.png"
     clerk.src = "images/bankers/Tiger.png";
     plotPoint = 17;
@@ -18,23 +19,27 @@ else if(office == 1){
     plotPoint = 10;
 }
 else if(office == 2){
-    document.body.style.backgroundColor = "#35453b";
+    document.body.style.backgroundColor = "#30481c";
     clerk.src = "images/bankers/Mushroom.png";
-    fg.src = "images/bankers/LocustOffice.png"
+    fg.src = "images/bankers/MushroomOffice.png"
     plotPoint = 21;
 }
 else{
-    document.body.style.backgroundColor = "#35453b";
-    fg.src = "images/bankers/LocustOffice.png"
+    document.body.style.backgroundColor = "#829b83";
+    fg.src = "images/bankers/AppraisalOffice.png"
     plotPoint = 6;
     if(day){
-        clerk.src = "images/bankers/Shark.png";
-        localStorage.setItem('day', false);
+        clerk.src = "images/bankers/SharkBack.png";
+        front.src = "images/bankers/SharkMouth.png";
+        console.log("It is daytime, and there is a shark running the Appraisal Shop.");
     }
     else{
-        clerk.src = "images/bankers/Penguin.png";
-        localStorage.setItem('day', true);
+        clerk.src = "images/bankers/PenguinBack.png";
+        front.src = "images/bankers/PenguinArm.png";
+        console.log("It is nighttime, and there is a penguin running the Appraisal Shop.");
     }
+    clerk.style.top = "10%";
+    front.style.display = "block";
         
 }
 
@@ -314,6 +319,10 @@ function mall(n, o, p){
     3: Appraisal    */
 document.getElementById("TigerMap").addEventListener("click", ()=>{
     if(navig == 17){
+        if(localStorage.getItem('day') == true)
+            localStorage.setItem('day', false);
+        else
+            localStorage.setItem('day', true);
         localStorage.setItem('office', 0);
         location.href="./Service.html";
     }
@@ -330,7 +339,12 @@ document.getElementById("TigerMap").addEventListener("click", ()=>{
 });
 document.getElementById("LocustMap").addEventListener("click", ()=>{
     if(navig == 10){
+        if(localStorage.getItem('day') == true)
+            localStorage.setItem('day', false);
+        else
+            localStorage.setItem('day', true);
         localStorage.setItem('office', 1);
+        console.log("Day after click, before load: " + day);
         location.href="./Service.html";
     }
     else if(!roadie){
@@ -346,6 +360,10 @@ document.getElementById("LocustMap").addEventListener("click", ()=>{
 });
 document.getElementById("MushroomMap").addEventListener("click", ()=>{
     if(navig == 21){
+        if(localStorage.getItem('day') == true)
+            localStorage.setItem('day', false);
+        else
+            localStorage.setItem('day', true);
         localStorage.setItem('office', 2);
         location.href="./Service.html";
     }
@@ -362,6 +380,10 @@ document.getElementById("MushroomMap").addEventListener("click", ()=>{
 });
 document.getElementById("AppraisalMap").addEventListener("click", ()=>{
     if(navig == 6){
+        if(localStorage.getItem('day') == true)
+            localStorage.setItem('day', false);
+        else
+            localStorage.setItem('day', true);
         localStorage.setItem('office', 3);
         location.href="./Service.html";
     }
@@ -375,8 +397,13 @@ document.getElementById("AppraisalMap").addEventListener("click", ()=>{
 });
 
 document.getElementById("HomeMap").addEventListener("click", () =>{
-    if(navig == 4)
+    if(navig == 4){
+        if(localStorage.getItem('day') == true)
+            localStorage.setItem('day', false);
+        else
+            localStorage.setItem('day', true);
         location.href="./PawnShop.html";
+    }
     else if(!roadie){
         roadie = true;
         if(navig == 0)
@@ -386,8 +413,13 @@ document.getElementById("HomeMap").addEventListener("click", () =>{
     }
 });
 document.getElementById("MinesMap").addEventListener("click", () =>{
-    if(navig == 0)
+    if(navig == 0){
         location.href="./DigSite.html";
+        if(localStorage.getItem('day') == true)
+            localStorage.setItem('day', false);
+        else
+            localStorage.setItem('day', true);
+    }
     else if(!roadie){
         roadie = true;
         mall(navig, navig - 1, 0);
