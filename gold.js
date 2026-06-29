@@ -28,7 +28,7 @@ else{
     document.body.style.backgroundColor = "#829b83";
     fg.src = "images/bankers/AppraisalOffice.png"
     plotPoint = 6;
-    if(day){
+    if(day == true){
         clerk.src = "images/bankers/SharkBack.png";
         front.src = "images/bankers/SharkMouth.png";
         console.log("It is daytime, and there is a shark running the Appraisal Shop.");

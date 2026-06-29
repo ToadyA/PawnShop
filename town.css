@@ -112,6 +112,26 @@ body{
     width: 15%;
     display: none;
 }
+#Talky{
+    position: absolute;
+    left: 22%;
+    top: 18%;
+    width: 16%;
+    height: 18%;
+    border-radius: 10px;
+    border: solid 4px #181b17;
+    background-color: #b2caaa;
+    display: block;
+    z-index: 4;
+    pointer-events: none;
+}
+#Talky p{
+    left: 6%;
+    font-size: 20px;
+    text-decoration-color: #1a2516;
+    z-index: 5;
+    pointer-events: none;
+}
 
 .Curio{
     position: absolute;
@@ -164,7 +184,7 @@ body{
     position: absolute;
     width: 15%;
     bottom: 2%;
-    right: 2%;
+    right: 20%;
     display: none;
     z-index: 6;
     cursor: pointer;
@@ -177,19 +197,19 @@ body{
     pointer-events: none;
 }
 #Pouch1{
-    right: 3%;
+    right: 21%;
     bottom: 4%;
 }
 #Pouch2{
-    right: 3%;
+    right: 21%;
     bottom: 17%;
 }
 #Pouch3{
-    right: 10%;
+    right: 28%;
     bottom: 4%;
 }
 #Pouch4{
-    right: 10%;
+    right: 28%;
     bottom: 17%;
 }
 
@@ -199,14 +219,6 @@ body{
     bottom: 37%;
     right: 33%;
     width: 5%;
-    z-index: 5;
-    cursor: pointer;
-}
-#Basket{
-    position: absolute;
-    right: 18%;
-    bottom: 5%;
-    width: 15%;
     z-index: 5;
     cursor: pointer;
 }
@@ -224,7 +236,27 @@ body{
     bottom: 32%;
     width: 9%;
     rotate: 15deg;
-    display: none;
-    z-index: 5;
+    display: block;
+    z-index: 6;
     cursor: pointer;
+}
+#BatYap{
+    position: absolute;
+    left: 82%;
+    top: 29%;
+    width: 16%;
+    height: 18%;
+    border-radius: 10px;
+    border: solid 4px #181b17;
+    background-color: #b2caaa;
+    display: block;
+    z-index: 8;
+    pointer-events: none;
+}
+#BatYap p{
+    left: 6%;
+    font-size: 20px;
+    text-decoration-color: #1a2516;
+    z-index: 9;
+    pointer-events: none;
 }
