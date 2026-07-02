@@ -12,7 +12,7 @@ document.body.style.backgroundColor = "#599aac";
 let day = JSON.parse(localStorage.getItem('day'));          //true: daytime worker, false: night worker; this alternates on visiting any location, including revisits.
 console.log("Daytime: " + day);
 captain = document.getElementById("Operator");
-junk = [JSON.parse(localStorage.getItem('curios'))[0], JSON.parse(localStorage.getItem('curios'))[1], JSON.parse(localStorage.getItem('curios'))[2], JSON.parse(localStorage.getItem('curios'))[3]];
+let junk = [JSON.parse(localStorage.getItem('curios'))[0], JSON.parse(localStorage.getItem('curios'))[1], JSON.parse(localStorage.getItem('curios'))[2], JSON.parse(localStorage.getItem('curios'))[3]];
 console.log("junk accounting: Slot0: " + junk[0].name + ", " + junk[0].look + ", " + junk[0].worth);
 console.log("junk accounting: Slot1: " + junk[1].name + ", " + junk[1].look + ", " + junk[1].worth);
 console.log("junk accounting: Slot2: " + junk[2].name + ", " + junk[2].look + ", " + junk[2].worth);

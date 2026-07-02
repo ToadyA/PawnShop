@@ -228,34 +228,44 @@ body{
     bottom: 19%;
     width: 13%;
     z-index: 6;
-    cursor: pointer;
+    pointer-events: none;
+}
+#ShiftBack{
+    position: absolute;
+    right: 7%;
+    bottom: 19%;
+    width: 13%;
+    z-index: 4;
+    pointer-events: none;
 }
 #FlatBat{
     position: absolute;
-    right: 5%;
-    bottom: 32%;
+    right: 8%;
+    bottom: 38.5%;
     width: 9%;
     rotate: 15deg;
     display: block;
-    z-index: 6;
+    z-index: 5;
     cursor: pointer;
 }
 #BatYap{
     position: absolute;
     left: 82%;
-    top: 29%;
+    top: 24%;
     width: 16%;
     height: 18%;
     border-radius: 10px;
     border: solid 4px #181b17;
     background-color: #b2caaa;
-    display: block;
+    display: none;
     z-index: 8;
     pointer-events: none;
 }
 #BatYap p{
-    left: 6%;
+    position: relative;
+    left: 3%;
     font-size: 20px;
+    font-weight: bold;
     text-decoration-color: #1a2516;
     z-index: 9;
     pointer-events: none;

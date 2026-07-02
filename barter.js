@@ -1,5 +1,37 @@
+if(localStorage.getItem('day') == null)
+    localStorage.setItem('day', JSON.stringify(false));
+console.log("day parity: " + localStorage.getItem('day'));
+if(localStorage.getItem('office') == null)
+    localStorage.setItem('office', JSON.stringify(0));
+if(localStorage.getItem('curios') == null)
+    localStorage.setItem('curios', JSON.stringify([emptyCurio(), emptyCurio(), emptyCurio(), emptyCurio()]));
+if(localStorage.getItem('display') == null)
+    localStorage.setItem('display', JSON.stringify([emptyCurio(), emptyCurio(), emptyCurio(), emptyCurio(), emptyCurio(), emptyCurio(), emptyCurio(), emptyCurio()]));
 let day = JSON.parse(localStorage.getItem('day'));          //true: daytime worker, false: night worker; this alternates on visiting any location, including revisits.
 console.log("Daytime: " + day);
+
+let junk = [JSON.parse(localStorage.getItem('curios'))[0], JSON.parse(localStorage.getItem('curios'))[1], JSON.parse(localStorage.getItem('curios'))[2], JSON.parse(localStorage.getItem('curios'))[3]];
+console.log("junk accounting: Slot0: " + junk[0].name + ", " + junk[0].look + ", " + junk[0].worth);
+console.log("junk accounting: Slot1: " + junk[1].name + ", " + junk[1].look + ", " + junk[1].worth);
+console.log("junk accounting: Slot2: " + junk[2].name + ", " + junk[2].look + ", " + junk[2].worth);
+console.log("junk accounting: Slot3: " + junk[3].name + ", " + junk[3].look + ", " + junk[3].worth);
+
+let loot = [JSON.parse(localStorage.getItem('curios'))[0].name, JSON.parse(localStorage.getItem('curios'))[1].name, JSON.parse(localStorage.getItem('curios'))[2].name, JSON.parse(localStorage.getItem('curios'))[3].name];
+let appValue = [JSON.parse(localStorage.getItem('curios'))[0].look, JSON.parse(localStorage.getItem('curios'))[1].look, JSON.parse(localStorage.getItem('curios'))[2].look, JSON.parse(localStorage.getItem('curios'))[3].look];
+let trueValue = [JSON.parse(localStorage.getItem('curios'))[0].worth, JSON.parse(localStorage.getItem('curios'))[1].worth, JSON.parse(localStorage.getItem('curios'))[2].worth, JSON.parse(localStorage.getItem('curios'))[3].worth];
+
+Pouch1 = document.getElementById("Pouch1");
+Pouch2 = document.getElementById("Pouch2");
+Pouch3 = document.getElementById("Pouch3");
+Pouch4 = document.getElementById("Pouch4");
+
+Pouch4.src = "images/curios/" + loot[0] + ".png";
+Pouch3.src = "images/curios/" + loot[1] + ".png";
+Pouch2.src = "images/curios/" + loot[2] + ".png";
+Pouch1.src = "images/curios/" + loot[3] + ".png";
+
+let display = [JSON.parse(localStorage.getItem('display'))[0], JSON.parse(localStorage.getItem('display'))[1], JSON.parse(localStorage.getItem('display'))[2], JSON.parse(localStorage.getItem('display'))[3], JSON.parse(localStorage.getItem('display'))[4], JSON.parse(localStorage.getItem('display'))[5], JSON.parse(localStorage.getItem('display'))[6], JSON.parse(localStorage.getItem('display'))[7]];
+
 let loans = {
     1: {name: "Loan 1", interest: 0, elapsed: 0, principle: 0},
     2: {name: "Loan 2", interest: 0, elapsed: 0, principle: 0},
@@ -9,11 +41,6 @@ let eggs = {
     1: {name: "Deposit 1", interest: 0, elapsed: 0, principle: 0},
     2: {name: "Deposit 2", interest: 0, elapsed: 0, principle: 0},
     3: {name: "Deposit 3", interest: 0, elapsed: 0, principle: 0},
-}
-let curio = {     //expand this to have more items
-    1: {name: "Buoy", age: 0, condition: 0, unique: false, value: 0},
-    2: {name: "Bark Shard", age: 0, condition: 0, unique: false, value: 0},
-    3: {name: "Glask", age: 0, condition: 0, unique: false, value: 0},
 }
 
 let ding = new Audio("audio/ding.mp3");
@@ -191,6 +218,49 @@ function comeOnIn(c){
         sizeWarp = 300;
     }
 }
+
+///Punchcard & FlatBat
+
+let yappyBat = false;
+function omnom(){
+    if(yappyBat){
+        setTimeout(() =>{
+            document.getElementById("FlatBat").src = "images/pawnshop/FlatBatYap.png";
+            setTimeout(() =>{
+                document.getElementById("FlatBat").src = "images/pawnshop/FlatBat.png";
+                omnom();
+            }, 400);
+        }, 400);
+    }
+}
+
+let batPoint = 0;
+document.getElementById("FlatBat").addEventListener("click", () =>{
+    if(!yappyBat){
+        yappyBat = true;
+        document.getElementById("BatYap").style.display = "block";
+        document.getElementById("BatYap").innerHTML = "<p>" + batSay[batPoint] + "<p>";
+        omnom();
+    }
+    else{
+        yappyBat = false;
+        document.getElementById("BatYap").innerHTML = "<p><p>";
+        document.getElementById("BatYap").style.display = "none";
+        batPoint ++;
+        if(batPoint > 4)
+            batPoint = 0;
+        omnom();
+    }
+    
+});
+
+let batSay = [
+    "This here card-puncher is my office. Just stick your card in and I'll chomp it once for you. Two chomps is a full day's work.",
+    "Customers want to buy your Curios. Just press a key 1-8 corresponding with the Slot you want to sell, starting from the lower-left and moving clockwise.",
+    "Customers will resonate more with certain Curios. Try stirring up some conversation with them and sleuth it out.",
+    "My active working hours are from 8:30 A.M. to 9:15 A.M., and then from 5 P.M. to Midnight. It's a dreadful split-shift every day.",
+    "Employees don't punch their cards these days, so I have to punch them in post so that corporate doesn't throw a fit. Don't worry about it, I'll be okay."
+];
 
 ///Map
 
@@ -578,23 +648,25 @@ document.getElementById("MinesMap").addEventListener("click", () =>{
     }
 });
 
+///Pouch
+
 let earnings = false;
 document.addEventListener("keydown", (e) =>{
     if(e.key == "q"){
         if(!earnings){
             document.getElementById("Contents").style.display = "block";
-            document.getElementById("Pouch1").style.display = "block";
-            document.getElementById("Pouch2").style.display = "block";
-            document.getElementById("Pouch3").style.display = "block";
-            document.getElementById("Pouch4").style.display = "block";
+            Pouch1.style.display = "block";
+            Pouch2.style.display = "block";
+            Pouch3.style.display = "block";
+            Pouch4.style.display = "block";
             earnings = true;
         }
         else{
             document.getElementById("Contents").style.display = "none";
-            document.getElementById("Pouch1").style.display = "none";
-            document.getElementById("Pouch2").style.display = "none";
-            document.getElementById("Pouch3").style.display = "none";
-            document.getElementById("Pouch4").style.display = "none";
+            Pouch1.style.display = "none";
+            Pouch2.style.display = "none";
+            Pouch3.style.display = "none";
+            Pouch4.style.display = "none";
             earnings = false;
         }
     }
@@ -602,25 +674,54 @@ document.addEventListener("keydown", (e) =>{
 document.getElementById("Sack").addEventListener("click", () =>{
     if(!earnings){
         document.getElementById("Contents").style.display = "block";
-        document.getElementById("Pouch1").style.display = "block";
-        document.getElementById("Pouch2").style.display = "block";
-        document.getElementById("Pouch3").style.display = "block";
-        document.getElementById("Pouch4").style.display = "block";
+        Pouch1.style.display = "block";
+        Pouch2.style.display = "block";
+        Pouch3.style.display = "block";
+        Pouch4.style.display = "block";
         earnings = true;
     }
     else{
         document.getElementById("Contents").style.display = "none";
-        document.getElementById("Pouch1").style.display = "none";
-        document.getElementById("Pouch2").style.display = "none";
-        document.getElementById("Pouch3").style.display = "none";
-        document.getElementById("Pouch4").style.display = "none";
+        Pouch1.style.display = "none";
+        Pouch2.style.display = "none";
+        Pouch3.style.display = "none";
+        Pouch4.style.display = "none";
         earnings = false;
     }
 });
 
+///Slots
+
+let curfew = [0, 0, 0, 0, 0, 0, 0, 0];    //keeping track of the last swapped node 0, 1, 2, 3 for each Slot.
+let bufferArray = [emptyCurio(), emptyCurio(), emptyCurio(), emptyCurio(), emptyCurio(), emptyCurio(), emptyCurio(), emptyCurio()];   //buffer to move between junk and Slots.
 document.getElementById("Slot1").addEventListener("click", () =>{
-    ;
+    if(junk[curfew[0]].name == "Slot"){
+        curfew[0] ++;
+        if(curfew[0] > 3)
+            curfew[0] = 0;
+    }
+    else{       //move the stuff from junk[] into display[] and vice-versa, using the bufferArray[].
+        bufferArray[0].name = display[0].name;
+        bufferArray[0].look = display[0].look;
+        bufferArray[0].worth = display[0].worth;
+        display[0].name = junk[curfew[0]].name;
+        display[0].look = junk[curfew[0]].look;
+        display[0].worth = junk[curfew[0]].worth;
+        junk[curfew[0]].name = bufferArray[0].name;
+        junk[curfew[0]].look = bufferArray[0].look;
+        junk[curfew[0]].worth = bufferArray[0].worth;
+
+        Pouch4.src = "images/curios/" + junk[0].name + ".png";
+        Pouch3.src = "images/curios/" + junk[1].name + ".png";
+        Pouch2.src = "images/curios/" + junk[2].name + ".png";
+        Pouch1.src = "images/curios/" + junk[3].name + ".png";
+        document.getElementById("Slot1").src = "images/curios/" + display[0].name + ".png";
+
+        localStorage.setItem('curios', JSON.stringify(junk));
+        localStorage.setItem('display', JSON.stringify(display));
+    }
 });
+
 //fetch the data on what today is: the field weather, the time of day, the number day since beginning, and whether it is a holiday.
 function getLoan(){
     const loan = localStorage.getItem('loan');
@@ -651,20 +752,8 @@ function emptyEgg(){
 
 function emptyCurio(){
     return{
-        name: '',       //the curio. 
-        age: 0,         //higher age yields exponential returns
-        condition: 0,   //higher condition yields linear returns
-        unique: false,  //unique is a static multiplied amount, but it scales higher for age than for condition
-        value: 0        //defaults to a low number (what your inexperienced self ascertains), but appraising it will apply the age and condition and unique modifiers
+        name: "Slot",       //the curio.
+        look: 0,
+        worth: 0
     };
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    if(localStorage.getItem('day') == null)
-        localStorage.setItem('day', JSON.stringify(false));
-    console.log("day parity: " + localStorage.getItem('day'));
-    if(localStorage.getItem('office') == null)
-        localStorage.setItem('office', JSON.stringify(0));
-    if(localStorage.getItem('curios') == null)
-        localStorage.setItem('curios', JSON.stringify([emptyCurio(), emptyCurio(), emptyCurio(), emptyCurio()]));
-});
