@@ -1,5 +1,5 @@
 document.body.style.backgroundColor = "#599aac";
-let day = localStorage.getItem('day');          //true: daytime worker, false: night worker; this alternates on visiting any location, including revisits.
+let day = JSON.parse(localStorage.getItem('day'));          //true: daytime worker, false: night worker; this alternates on visiting any location, including revisits.
 console.log("Daytime: " + day);
 captain = document.getElementById("Operator");
 if(day){
@@ -693,6 +693,7 @@ function mall(n, o, p){
         }
     }, 50);
 }
+
 /*  0: Tiger
     1: Locust
     2: Mushroom
@@ -700,10 +701,10 @@ function mall(n, o, p){
 document.getElementById("TigerMap").addEventListener("click", ()=>{
     if(navig == 17){
         if(localStorage.getItem('day') == true)
-            localStorage.setItem('day', false);
+            localStorage.setItem('day', JSON.stringify(false));
         else
-            localStorage.setItem('day', true);
-        localStorage.setItem('office', 0);
+            localStorage.setItem('day', JSON.stringify(true));
+        localStorage.setItem('office', JSON.stringify(0));
         location.href="./Service.html";
     }
     else if(!roadie){
@@ -720,10 +721,10 @@ document.getElementById("TigerMap").addEventListener("click", ()=>{
 document.getElementById("LocustMap").addEventListener("click", ()=>{
     if(navig == 10){
         if(localStorage.getItem('day') == true)
-            localStorage.setItem('day', false);
+            localStorage.setItem('day', JSON.stringify(false));
         else
-            localStorage.setItem('day', true);
-        localStorage.setItem('office', 1);
+            localStorage.setItem('day', JSON.stringify(true));
+        localStorage.setItem('office', JSON.stringify(1));
         location.href="./Service.html";
     }
     else if(!roadie){
@@ -740,10 +741,10 @@ document.getElementById("LocustMap").addEventListener("click", ()=>{
 document.getElementById("MushroomMap").addEventListener("click", ()=>{
     if(navig == 21){
         if(localStorage.getItem('day') == true)
-            localStorage.setItem('day', false);
+            localStorage.setItem('day', JSON.stringify(false));
         else
-            localStorage.setItem('day', true);
-        localStorage.setItem('office', 2);
+            localStorage.setItem('day', JSON.stringify(true));
+        localStorage.setItem('office', JSON.stringify(2));
         location.href="./Service.html";
     }
     else if(!roadie){
@@ -760,10 +761,10 @@ document.getElementById("MushroomMap").addEventListener("click", ()=>{
 document.getElementById("AppraisalMap").addEventListener("click", ()=>{
     if(navig == 6){
         if(localStorage.getItem('day') == true)
-            localStorage.setItem('day', false);
+            localStorage.setItem('day', JSON.stringify(false));
         else
-            localStorage.setItem('day', true);
-        localStorage.setItem('office', 3);
+            localStorage.setItem('day', JSON.stringify(true));
+        localStorage.setItem('office', JSON.stringify(3));
         location.href="./Service.html";
     }
     else if(!roadie){
@@ -778,9 +779,9 @@ document.getElementById("AppraisalMap").addEventListener("click", ()=>{
 document.getElementById("HomeMap").addEventListener("click", () =>{
     if(navig == 4){
         if(localStorage.getItem('day') == true)
-            localStorage.setItem('day', false);
+            localStorage.setItem('day', JSON.stringify(false));
         else
-            localStorage.setItem('day', true);
+            localStorage.setItem('day', JSON.stringify(true));
         location.href="./PawnShop.html";
     }
     else if(!roadie){
@@ -795,9 +796,9 @@ document.getElementById("MinesMap").addEventListener("click", () =>{
     if(navig == 0){
         location.href="./DigSite.html";
         if(localStorage.getItem('day') == true)
-            localStorage.setItem('day', false);
+            localStorage.setItem('day', JSON.stringify(false));
         else
-            localStorage.setItem('day', true);
+            localStorage.setItem('day', JSON.stringify(true));
     }
     else if(!roadie){
         roadie = true;
@@ -989,4 +990,14 @@ document.addEventListener("keydown", (e) =>{
             earnings = false;
         }
     }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    if(localStorage.getItem('day') == null)
+        localStorage.setItem('day', JSON.stringify(false));
+    console.log("day parity: " + localStorage.getItem('day'));
+    if(localStorage.getItem('office') == null)
+        localStorage.setItem('office', JSON.stringify(0));
+    if(localStorage.getItem('curios') == null)
+        localStorage.setItem('curios', JSON.stringify([emptyCurio(), emptyCurio(), emptyCurio(), emptyCurio()]));
 });
