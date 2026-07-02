@@ -49,10 +49,16 @@ let appValue = [JSON.parse(localStorage.getItem('curios'))[0].look, JSON.parse(l
 let trueValue = [JSON.parse(localStorage.getItem('curios'))[0].worth, JSON.parse(localStorage.getItem('curios'))[1].worth, JSON.parse(localStorage.getItem('curios'))[2].worth, JSON.parse(localStorage.getItem('curios'))[3].worth];
 let bunker = false;
 
-Pouch4.src ? "images/curios/valuable/" + loot[0] + ".png" : "images/curios/" + loot[0] + ".png";
+//Pouch4.src ? "images/curios/valuable/" + loot[0] + ".png" : "images/curios/" + loot[0] + ".png";
 Pouch3.src ? "images/curios/valuable/" + loot[1] + ".png" : "images/curios/" + loot[1] + ".png";
 Pouch2.src ? "images/curios/valuable/" + loot[2] + ".png" : "images/curios/" + loot[2] + ".png";
 Pouch1.src ? "images/curios/valuable/" + loot[3] + ".png" : "images/curios/" + loot[3] + ".png";
+try{
+    Pouch4.src = "images/curios/valuable/" + loot[0] + ".png";
+}
+catch(e){
+    Pouch4.src = "images/curios/" + loot[0] + ".png";
+}
 
 function nextLayer(a, b, c, d){
     //pop the top layer, then roll for the next layer and push the result up from the bottom.
