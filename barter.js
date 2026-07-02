@@ -280,6 +280,8 @@ function mall(n, o, p){
                     o = 3;
                 else if(o == 11)
                     o = 6;
+                else if(o == 8)
+                    o = 2;
                 else if(o == 18)
                     o = 15;
                 else
@@ -289,6 +291,8 @@ function mall(n, o, p){
                     n = 3;
                 else if(n == 11)
                     n = 6;
+                else if(n == 8)
+                    n = 2;
                 else if(n == 18)
                     n = 15;
                 else
@@ -472,7 +476,7 @@ document.getElementById("TigerMap").addEventListener("click", ()=>{
             localStorage.setItem('day', JSON.stringify(false));
         else
             localStorage.setItem('day', JSON.stringify(true));
-        localStorage.setItem('office', JSON.stringify(0));
+        localStorage.setItem('office', 0);
         location.href="./Service.html";
     }
     else if(!roadie){
@@ -492,7 +496,7 @@ document.getElementById("LocustMap").addEventListener("click", ()=>{
             localStorage.setItem('day', JSON.stringify(false));
         else
             localStorage.setItem('day', JSON.stringify(true));
-        localStorage.setItem('office', JSON.stringify(1));
+        localStorage.setItem('office', 1);
         location.href="./Service.html";
     }
     else if(!roadie){
@@ -512,7 +516,7 @@ document.getElementById("MushroomMap").addEventListener("click", ()=>{
             localStorage.setItem('day', JSON.stringify(false));
         else
             localStorage.setItem('day', JSON.stringify(true));
-        localStorage.setItem('office', JSON.stringify(2));
+        localStorage.setItem('office', 2);
         location.href="./Service.html";
     }
     else if(!roadie){
@@ -532,7 +536,7 @@ document.getElementById("AppraisalMap").addEventListener("click", ()=>{
             localStorage.setItem('day', JSON.stringify(false));
         else
             localStorage.setItem('day', JSON.stringify(true));
-        localStorage.setItem('office', JSON.stringify(3));
+        localStorage.setItem('office', 3);
         location.href="./Service.html";
     }
     else if(!roadie){

@@ -2,6 +2,11 @@ document.body.style.backgroundColor = "#599aac";
 let day = JSON.parse(localStorage.getItem('day'));          //true: daytime worker, false: night worker; this alternates on visiting any location, including revisits.
 console.log("Daytime: " + day);
 captain = document.getElementById("Operator");
+junk = [JSON.parse(localStorage.getItem('curios'))[0], JSON.parse(localStorage.getItem('curios'))[1], JSON.parse(localStorage.getItem('curios'))[2], JSON.parse(localStorage.getItem('curios'))[3]];
+console.log("junk accounting: Slot0: " + junk[0].name + ", " + junk[0].look + ", " + junk[0].worth);
+console.log("junk accounting: Slot1: " + junk[1].name + ", " + junk[1].look + ", " + junk[1].worth);
+console.log("junk accounting: Slot2: " + junk[2].name + ", " + junk[2].look + ", " + junk[2].worth);
+console.log("junk accounting: Slot3: " + junk[3].name + ", " + junk[3].look + ", " + junk[3].worth);
 if(day){
     console.log("Sun alert!");
     captain.src = "images/mines/Bellows.png";
@@ -29,11 +34,17 @@ Volcanic rock guarantees high value for anything found next, so long as volcanic
 85: volcanic rock   8%      0%      15%     12%     12%
 5: bunker           16%     25%     15%     20%     20%
 */
-let syringe = [0,0,0,0];
-let loot = ["", "", "", ""];
-let appValue = [0, 0, 0, 0];
-let trueValue = [0, 0, 0, 0];
+let syringe = [0, 0, 0, 0];
+let loot = [JSON.parse(localStorage.getItem('curios'))[0].name, JSON.parse(localStorage.getItem('curios'))[1].name, JSON.parse(localStorage.getItem('curios'))[2].name, JSON.parse(localStorage.getItem('curios'))[3].name];
+let appValue = [JSON.parse(localStorage.getItem('curios'))[0].look, JSON.parse(localStorage.getItem('curios'))[1].look, JSON.parse(localStorage.getItem('curios'))[2].look, JSON.parse(localStorage.getItem('curios'))[3].look];
+let trueValue = [JSON.parse(localStorage.getItem('curios'))[0].worth, JSON.parse(localStorage.getItem('curios'))[1].worth, JSON.parse(localStorage.getItem('curios'))[2].worth, JSON.parse(localStorage.getItem('curios'))[3].worth];
 let bunker = false;
+
+Pouch4.src ? "images/curios/valuable/" + loot[0] + ".png" : "images/curios/" + loot[0] + ".png";
+Pouch3.src ? "images/curios/valuable/" + loot[1] + ".png" : "images/curios/" + loot[1] + ".png";
+Pouch2.src ? "images/curios/valuable/" + loot[2] + ".png" : "images/curios/" + loot[2] + ".png";
+Pouch1.src ? "images/curios/valuable/" + loot[3] + ".png" : "images/curios/" + loot[3] + ".png";
+
 function nextLayer(a, b, c, d){
     //pop the top layer, then roll for the next layer and push the result up from the bottom.
     console.log("nextLayer() called.");
@@ -286,25 +297,25 @@ function valuation(a, b, c, d){
             loot[i] = treasures[g];
             console.log("treasure assigned!");
             if(i == 3)
-                Slot4.src = "images/curios/valuable/" + loot[i] + ".png";
+                Pouch4.src = "images/curios/valuable/" + loot[i] + ".png";
             else if(i == 2)
-                Slot3.src = "images/curios/valuable/" + loot[i] + ".png";
+                Pouch3.src = "images/curios/valuable/" + loot[i] + ".png";
             else if(i == 1)
-                Slot2.src = "images/curios/valuable/" + loot[i] + ".png";
+                Pouch2.src = "images/curios/valuable/" + loot[i] + ".png";
             else
-                Slot1.src = "images/curios/valuable/" + loot[i] + ".png";
+                Pouch1.src = "images/curios/valuable/" + loot[i] + ".png";
         }
         else{
             loot[i] = curios[g];
             console.log("curio assigned!");
             if(i == 3)
-                Slot4.src = "images/curios/" + loot[i] + ".png";
+                Pouch4.src = "images/curios/" + loot[i] + ".png";
             else if(i == 2)
-                Slot3.src = "images/curios/" + loot[i] + ".png";
+                Pouch3.src = "images/curios/" + loot[i] + ".png";
             else if(i == 1)
-                Slot2.src = "images/curios/" + loot[i] + ".png";
+                Pouch2.src = "images/curios/" + loot[i] + ".png";
             else
-                Slot1.src = "images/curios/" + loot[i] + ".png";
+                Pouch1.src = "images/curios/" + loot[i] + ".png";
         }
         appValue[i] = Math.floor(Math.random() * 20);
         if(appValue[i] <= 0)
@@ -321,6 +332,18 @@ function valuation(a, b, c, d){
             trueValue[i] = appValue[i];
         console.log("post-appraisal value: $" + trueValue[i]);
     }
+
+    //parbake so setting to localStorage later is less messy
+    for(i = 0; i <= 3; i ++){
+        junk[i].name = loot[i];
+        junk[i].look = appValue[i];
+        junk[i].worth = trueValue[i];
+    }
+    
+    console.log("junk accounting: Slot0: " + junk[0].name + ", " + junk[0].look + ", " + junk[0].worth);
+    console.log("junk accounting: Slot1: " + junk[1].name + ", " + junk[1].look + ", " + junk[1].worth);
+    console.log("junk accounting: Slot2: " + junk[2].name + ", " + junk[2].look + ", " + junk[2].worth);
+    console.log("junk accounting: Slot3: " + junk[3].name + ", " + junk[3].look + ", " + junk[3].worth);
     busy = false;
 }
 
@@ -512,6 +535,8 @@ function mall(n, o, p){
                     o = 3;
                 else if(o == 11)
                     o = 6;
+                else if(o == 8)
+                    o = 2;
                 else if(o == 18)
                     o = 15;
                 else
@@ -521,6 +546,8 @@ function mall(n, o, p){
                     n = 3;
                 else if(n == 11)
                     n = 6;
+                else if(n == 8)
+                    n = 2;
                 else if(n == 18)
                     n = 15;
                 else
@@ -700,11 +727,12 @@ function mall(n, o, p){
     3: Appraisal    */
 document.getElementById("TigerMap").addEventListener("click", ()=>{
     if(navig == 17){
+        localStorage.setItem('curios', JSON.stringify([junk[0], junk[1], junk[2], junk[3]]));
         if(day)
             localStorage.setItem('day', JSON.stringify(false));
         else
             localStorage.setItem('day', JSON.stringify(true));
-        localStorage.setItem('office', JSON.stringify(0));
+        localStorage.setItem('office', 0);
         location.href="./Service.html";
     }
     else if(!roadie){
@@ -720,11 +748,12 @@ document.getElementById("TigerMap").addEventListener("click", ()=>{
 });
 document.getElementById("LocustMap").addEventListener("click", ()=>{
     if(navig == 10){
+        localStorage.setItem('curios', JSON.stringify([junk[0], junk[1], junk[2], junk[3]]));
         if(day)
             localStorage.setItem('day', JSON.stringify(false));
         else
             localStorage.setItem('day', JSON.stringify(true));
-        localStorage.setItem('office', JSON.stringify(1));
+        localStorage.setItem('office', 1);
         location.href="./Service.html";
     }
     else if(!roadie){
@@ -740,11 +769,12 @@ document.getElementById("LocustMap").addEventListener("click", ()=>{
 });
 document.getElementById("MushroomMap").addEventListener("click", ()=>{
     if(navig == 21){
+        localStorage.setItem('curios', JSON.stringify([junk[0], junk[1], junk[2], junk[3]]));
         if(day)
             localStorage.setItem('day', JSON.stringify(false));
         else
             localStorage.setItem('day', JSON.stringify(true));
-        localStorage.setItem('office', JSON.stringify(2));
+        localStorage.setItem('office', 2);
         location.href="./Service.html";
     }
     else if(!roadie){
@@ -760,11 +790,12 @@ document.getElementById("MushroomMap").addEventListener("click", ()=>{
 });
 document.getElementById("AppraisalMap").addEventListener("click", ()=>{
     if(navig == 6){
+        localStorage.setItem('curios', JSON.stringify([junk[0], junk[1], junk[2], junk[3]]));
         if(day)
             localStorage.setItem('day', JSON.stringify(false));
         else
             localStorage.setItem('day', JSON.stringify(true));
-        localStorage.setItem('office', JSON.stringify(3));
+        localStorage.setItem('office', 3);
         location.href="./Service.html";
     }
     else if(!roadie){
@@ -778,6 +809,7 @@ document.getElementById("AppraisalMap").addEventListener("click", ()=>{
 
 document.getElementById("HomeMap").addEventListener("click", () =>{
     if(navig == 4){
+        localStorage.setItem('curios', JSON.stringify([junk[0], junk[1], junk[2], junk[3]]));
         if(day)
             localStorage.setItem('day', JSON.stringify(false));
         else
@@ -794,11 +826,12 @@ document.getElementById("HomeMap").addEventListener("click", () =>{
 });
 document.getElementById("MinesMap").addEventListener("click", () =>{
     if(navig == 0){
-        location.href="./DigSite.html";
+        localStorage.setItem('curios', JSON.stringify([junk[0], junk[1], junk[2], junk[3]]));
         if(day)
             localStorage.setItem('day', JSON.stringify(false));
         else
             localStorage.setItem('day', JSON.stringify(true));
+        location.href="./DigSite.html";
     }
     else if(!roadie){
         roadie = true;
@@ -990,7 +1023,24 @@ document.addEventListener("keydown", (e) =>{
             earnings = false;
         }
     }
+    else if(e.key == "r"){      //reset lol
+        localStorage.setItem('curios', JSON.stringify([junk[0], junk[1], junk[2], junk[3]]));
+        if(day)
+            localStorage.setItem('day', JSON.stringify(false));
+        else
+            localStorage.setItem('day', JSON.stringify(true));
+        location.href="./DigSite.html";
+    }
 });
+
+function emptyCurio(){
+    console.log("wow I guess there's nothing in here part II.")
+    return{
+        name: "images/curios/Slot.png",       //the curio.
+        look: 0,        //monetary worth defaults to a low number (what your inexperienced self ascertains)
+        worth: 0        //appraising a curio will reveal a higher value usually
+    };
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     if(localStorage.getItem('day') == null)
@@ -998,6 +1048,8 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log("day parity: " + localStorage.getItem('day'));
     if(localStorage.getItem('office') == null)
         localStorage.setItem('office', JSON.stringify(0));
-    if(localStorage.getItem('curios') == null)
+    if(localStorage.getItem('curios') == null){
+        console.log("wow I guess there's nothing in here.")
         localStorage.setItem('curios', JSON.stringify([emptyCurio(), emptyCurio(), emptyCurio(), emptyCurio()]));
+    }
 });
