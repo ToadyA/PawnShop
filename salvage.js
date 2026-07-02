@@ -20,10 +20,12 @@ console.log("junk accounting: Slot3: " + junk[3].name + ", " + junk[3].look + ",
 if(day){
     console.log("Sun alert!");
     captain.src = "images/mines/Bellows.png";
+    document.getElementById("Operhand").src = "images/mines/BellowHand.png";
 }
 else{
     console.log("Sun alertn't.");
-    captain.src = "images/mines/Warthog.png";
+    captain.src = "images/mines/WarthogCounsel.png";
+    document.getElementById("Operhand").src = "images/mines/WarthogHands.png";
 }
 let busy = false;       //pressing 's' or 'w' while busy will have no effect!
 
@@ -49,16 +51,11 @@ let appValue = [JSON.parse(localStorage.getItem('curios'))[0].look, JSON.parse(l
 let trueValue = [JSON.parse(localStorage.getItem('curios'))[0].worth, JSON.parse(localStorage.getItem('curios'))[1].worth, JSON.parse(localStorage.getItem('curios'))[2].worth, JSON.parse(localStorage.getItem('curios'))[3].worth];
 let bunker = false;
 
-//Pouch4.src ? "images/curios/valuable/" + loot[0] + ".png" : "images/curios/" + loot[0] + ".png";
-Pouch3.src ? "images/curios/valuable/" + loot[1] + ".png" : "images/curios/" + loot[1] + ".png";
-Pouch2.src ? "images/curios/valuable/" + loot[2] + ".png" : "images/curios/" + loot[2] + ".png";
-Pouch1.src ? "images/curios/valuable/" + loot[3] + ".png" : "images/curios/" + loot[3] + ".png";
-try{
-    Pouch4.src = "images/curios/valuable/" + loot[0] + ".png";
-}
-catch(e){
-    Pouch4.src = "images/curios/" + loot[0] + ".png";
-}
+Pouch4.src = "images/curios/" + loot[0] + ".png";
+Pouch3.src = "images/curios/" + loot[1] + ".png";
+Pouch2.src = "images/curios/" + loot[2] + ".png";
+Pouch1.src = "images/curios/" + loot[3] + ".png";
+
 
 function nextLayer(a, b, c, d){
     //pop the top layer, then roll for the next layer and push the result up from the bottom.
@@ -311,27 +308,19 @@ function valuation(a, b, c, d){
         if(gold >= 85){
             loot[i] = treasures[g];
             console.log("treasure assigned!");
-            if(i == 3)
-                Pouch4.src = "images/curios/valuable/" + loot[i] + ".png";
-            else if(i == 2)
-                Pouch3.src = "images/curios/valuable/" + loot[i] + ".png";
-            else if(i == 1)
-                Pouch2.src = "images/curios/valuable/" + loot[i] + ".png";
-            else
-                Pouch1.src = "images/curios/valuable/" + loot[i] + ".png";
         }
         else{
             loot[i] = curios[g];
             console.log("curio assigned!");
-            if(i == 3)
-                Pouch4.src = "images/curios/" + loot[i] + ".png";
-            else if(i == 2)
-                Pouch3.src = "images/curios/" + loot[i] + ".png";
-            else if(i == 1)
-                Pouch2.src = "images/curios/" + loot[i] + ".png";
-            else
-                Pouch1.src = "images/curios/" + loot[i] + ".png";
         }
+        if(i == 3)
+            Pouch4.src = "images/curios/" + loot[i] + ".png";
+        else if(i == 2)
+            Pouch3.src = "images/curios/" + loot[i] + ".png";
+        else if(i == 1)
+            Pouch2.src = "images/curios/" + loot[i] + ".png";
+        else
+            Pouch1.src = "images/curios/" + loot[i] + ".png";
         appValue[i] = Math.floor(Math.random() * 20);
         if(appValue[i] <= 0)
             appValue[i] = 1;
@@ -386,8 +375,8 @@ bobber();
 function bobber(){
     if(bob){
         document.getElementById("Boat").style.top = (6 + Math.sin(bobbing)) + "%";
-        document.getElementById("Operator").style.top = (24 + Math.sin(bobbing)) + "%";
-        document.getElementById("Operhand").style.top = (24 + Math.sin(bobbing)) + "%";
+        document.getElementById("Operator").style.top = (25 + Math.sin(bobbing)) + "%";
+        document.getElementById("Operhand").style.top = (25 + Math.sin(bobbing)) + "%";
         document.getElementById("Crank").style.top = (cranky + Math.sin(bobbing)) + "%";
         bobbing += (Math.PI / 4);
         //console.log("bobbing: " + bobbing + ", and sin: " + Math.sin(bobbing));
@@ -397,69 +386,92 @@ function bobber(){
     }
 }
 
-let talk = 0;        //1 = talking, 2 = cooldown, 0 = available to talk.
+let consult = 0;
+let talk = false;        //1 = talking, 2 = cooldown, 0 = available to talk.
 captain.addEventListener("click", ()=>{
     console.log("you clicked the Captain");
-    if(talk == 0){
+    if(!talk){
+        talk = true;
+        document.getElementById("Talky").style.display = "block";
         if(day){
+            document.getElementById("Talky").innerHTML="<p>" + bellowTalk[consult] + "</p>";
             console.log("Bellows talkin here!");
             bellowTalky();
         }
         else{
-            hogTalky();
+            document.getElementById("Talky").innerHTML="<p>" + wartTalk[consult] + "</p>";
             console.log("Warthog talkin here!");
+            hogTalky();
         }
-        talk = 1;
     }
     else{
-        talk = 2;
+        talk = false;
+        document.getElementById("Talky").innerHTML="<p></p>";
+        document.getElementById("Talky").style.display = "none";
+        consult ++;
+        if(consult > 3)
+            consult = 0;
         console.log("Diplomacy has failed...");
         setTimeout(() =>{
-            talk = 0;
+            talk = false;
             if(day)
                 captain.src = "images/mines/Bellows.png";
             else
                 captain.src = "images/mines/Warthog.png";
             console.log("It seems relations have changed.");
-        }, 100);
+        }, 400);
     }
     
 });
 function bellowTalky(){
     console.log("Bellows talkin here!");
-    if(talk == 1){
-        captain.src = "images/mines/BellowsChange.png";
+    captain.src = "images/mines/BellowsFlip.png";
+    setTimeout(() =>{
+        captain.src = "images/mines/BellowsBack.png";
         setTimeout(() =>{
             captain.src = "images/mines/BellowsFlip.png";
             setTimeout(() =>{
-                captain.src = "images/mines/BellowsBack.png";
-                setTimeout(() =>{
-                    captain.src = "images/mines/BellowsFlip.png";
+                if(talk){
+                    captain.src = "images/mines/BellowsChange.png";
                     setTimeout(() =>{
-                        if(talk == 1)
-                            bellowTalky();
+                        bellowTalky();
                     }, 500);
-                }, 500);
+                }
+                else
+                    captain.src = "images/mines/Bellows.png";
             }, 500);
         }, 500);
-    }
+    }, 500);
 }
 function hogTalky(){
     captain.src = "images/mines/WarthogLeft.png";
         setTimeout(() =>{
-            captain.src = "images/mines/Warthog.png";
+            captain.src = "images/mines/WarthogCounsel.png";
             setTimeout(() =>{
                 captain.src = "images/mines/WarthogRight.png";
                 setTimeout(() =>{
-                    captain.src = "images/mines/Warthog.png";
+                    captain.src = "images/mines/WarthogCounsel.png";
                     setTimeout(() =>{
-                        if(talk == 1)
+                        if(talk)
                             hogTalky();
                     }, 500);
                 }, 500);
             }, 500);
         }, 500);
 }
+
+let bellowTalk = [
+    "While drilling, press the 's' key to bore down another layer. Press the 'w' key to finish and cash out for the session. Press Spacebar to begin.",
+    "Of the five layers on screen, the bottom four are what you can extract. Expect one Curio for each of the four layers.",
+    "Try to keep a layer of Volcanic Rock in the bunch. It preserves things well I hear. Even regular Rock can yield a Geode!",
+    "Fossils beget more Fossils. Rocks normally lower salvage value, except for Fossils!"
+];
+let wartTalk = [
+    "Press Spacebar to dive down, and then press 's' to drill down! Press 'w' to end your session and take your loot.",
+    "This is a risk game: Water and Rock hurt the value of the cool stuff you can find, but Water is pretty unlikely usually...",
+    "If you press 'w' too soon, you'll salvage Water and Rock, which is no good. You're better off picking up some Driftwood.",
+    "If you pierce through a Bunker, there's a huge chance for Loot! If the four layers are all loot and/or Bunker, the value is very high."
+];
 
 ///Map
 
