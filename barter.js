@@ -1,4 +1,4 @@
-let day = localStorage.getItem('day');          //true: daytime worker, false: night worker; this alternates on visiting any location, including revisits.
+let day = JSON.parse(localStorage.getItem('day'));          //true: daytime worker, false: night worker; this alternates on visiting any location, including revisits.
 console.log("Daytime: " + day);
 let loans = {
     1: {name: "Loan 1", interest: 0, elapsed: 0, principle: 0},
@@ -468,7 +468,7 @@ function mall(n, o, p){
     3: Appraisal    */
 document.getElementById("TigerMap").addEventListener("click", ()=>{
     if(navig == 17){
-        if(localStorage.getItem('day') == true)
+        if(day)
             localStorage.setItem('day', JSON.stringify(false));
         else
             localStorage.setItem('day', JSON.stringify(true));
@@ -488,7 +488,7 @@ document.getElementById("TigerMap").addEventListener("click", ()=>{
 });
 document.getElementById("LocustMap").addEventListener("click", ()=>{
     if(navig == 10){
-        if(localStorage.getItem('day') == true)
+        if(day)
             localStorage.setItem('day', JSON.stringify(false));
         else
             localStorage.setItem('day', JSON.stringify(true));
@@ -508,7 +508,7 @@ document.getElementById("LocustMap").addEventListener("click", ()=>{
 });
 document.getElementById("MushroomMap").addEventListener("click", ()=>{
     if(navig == 21){
-        if(localStorage.getItem('day') == true)
+        if(day)
             localStorage.setItem('day', JSON.stringify(false));
         else
             localStorage.setItem('day', JSON.stringify(true));
@@ -528,7 +528,7 @@ document.getElementById("MushroomMap").addEventListener("click", ()=>{
 });
 document.getElementById("AppraisalMap").addEventListener("click", ()=>{
     if(navig == 6){
-        if(localStorage.getItem('day') == true)
+        if(day)
             localStorage.setItem('day', JSON.stringify(false));
         else
             localStorage.setItem('day', JSON.stringify(true));
@@ -546,7 +546,7 @@ document.getElementById("AppraisalMap").addEventListener("click", ()=>{
 
 document.getElementById("HomeMap").addEventListener("click", () =>{
     if(navig == 4){
-        if(localStorage.getItem('day') == true)
+        if(day)
             localStorage.setItem('day', JSON.stringify(false));
         else
             localStorage.setItem('day', JSON.stringify(true));
@@ -563,7 +563,7 @@ document.getElementById("HomeMap").addEventListener("click", () =>{
 document.getElementById("MinesMap").addEventListener("click", () =>{
     if(navig == 0){
         location.href="./DigSite.html";
-        if(localStorage.getItem('day') == true)
+        if(day)
             localStorage.setItem('day', JSON.stringify(false));
         else
             localStorage.setItem('day', JSON.stringify(true));
