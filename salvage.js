@@ -1,3 +1,13 @@
+if(localStorage.getItem('day') == null)
+    localStorage.setItem('day', JSON.stringify(false));
+console.log("day parity: " + localStorage.getItem('day'));
+if(localStorage.getItem('office') == null)
+    localStorage.setItem('office', JSON.stringify(0));
+if(localStorage.getItem('curios') == null){
+    console.log("wow I guess there's nothing in here.")
+    localStorage.setItem('curios', JSON.stringify([emptyCurio(), emptyCurio(), emptyCurio(), emptyCurio()]));
+}
+
 document.body.style.backgroundColor = "#599aac";
 let day = JSON.parse(localStorage.getItem('day'));          //true: daytime worker, false: night worker; this alternates on visiting any location, including revisits.
 console.log("Daytime: " + day);
@@ -15,7 +25,6 @@ else{
     console.log("Sun alertn't.");
     captain.src = "images/mines/Warthog.png";
 }
-console.log("This file has been updated and changed!");
 let busy = false;       //pressing 's' or 'w' while busy will have no effect!
 
 /*  There are rules to determine what layers are possible next. We default to 3 layers of water plus 1 layer of rock.
@@ -1042,14 +1051,7 @@ function emptyCurio(){
     };
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    if(localStorage.getItem('day') == null)
-        localStorage.setItem('day', JSON.stringify(false));
-    console.log("day parity: " + localStorage.getItem('day'));
-    if(localStorage.getItem('office') == null)
-        localStorage.setItem('office', JSON.stringify(0));
-    if(localStorage.getItem('curios') == null){
-        console.log("wow I guess there's nothing in here.")
-        localStorage.setItem('curios', JSON.stringify([emptyCurio(), emptyCurio(), emptyCurio(), emptyCurio()]));
-    }
-});
+console.log("junk accounting: Slot0: " + junk[0].name + ", " + junk[0].look + ", " + junk[0].worth);
+console.log("junk accounting: Slot1: " + junk[1].name + ", " + junk[1].look + ", " + junk[1].worth);
+console.log("junk accounting: Slot2: " + junk[2].name + ", " + junk[2].look + ", " + junk[2].worth);
+console.log("junk accounting: Slot3: " + junk[3].name + ", " + junk[3].look + ", " + junk[3].worth);
